@@ -37,7 +37,11 @@
   <div id="produk"></div>
 
   <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?gid=1076500592&single=true&output=csv";
+    
+const CSV_URLS = [
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?gid=1076500592&single=true&output=csv',
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?output=csv&gid=1076500592'
+];
 
     async function tampilkanProduk() {
       const status = document.getElementById("status");
