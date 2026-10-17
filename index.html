@@ -1200,8 +1200,8 @@ function draw() {
 
     const message =
       `Halo Eiger Pahlawan Sidoarjo, saya ingin bertanya tentang ${p.name} ` +
-      `(kode ${p.sku}). Mohon info warna, ukuran, dan stok yang tersedia. ` +
-      `Harga katalog ${fmt(p.price)}.`;
+      `(kode ${p.sku}). Mohon info stok yang tersedia. ` +
+      `Harga katalog apakah benar ${fmt(p.price)}.`;
 
     const whatsappURL = WHATSAPP_NUMBER
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
