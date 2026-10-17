@@ -80,31 +80,80 @@ button,input,select {
   z-index:1;
 }
 
-.hero-logo {
-  display:inline-block;
-  border:2px solid white;
-  border-radius:7px;
-  padding:7px 12px 10px;
-  font-size:42px;
-  font-weight:1000;
-  font-style:italic;
-  letter-spacing:-.11em;
-  transform:skew(-8deg);
+/* LOGO EIGER HEADER ATAS */
+.eiger-logo-img {
+  display: block;
+  width: 54px;
+  height: 24px;
+  object-fit: contain;
+  object-position: center;
+  padding-right: 8px;
+  border-right: 1px solid #ffffff50;
+  flex-shrink: 0;
+}
+
+.top-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+}
+
+/* LOGO EIGER BANNER UTAMA */
+.hero-logo-img {
+  display: block;
+  width: 104px;
+  height: 46px;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
+  filter: drop-shadow(2px 2px 0 #20231f24);
 }
 
 .hero-brand-lockup {
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-bottom:24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .hero-brand-caption {
-  max-width:110px;
-  font-size:10px;
-  line-height:1.5;
-  font-weight:800;
-  letter-spacing:.16em;
+  font-size: 9px;
+  line-height: 1.5;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-transform: uppercase;
+  max-width: 95px;
+}
+
+/* TAMPILAN MOBILE */
+@media (max-width: 620px) {
+  .eiger-logo-img {
+    width: 46px;
+    height: 22px;
+    padding-right: 6px;
+  }
+
+  .top-brand {
+    gap: 7px;
+  }
+
+  .hero-logo-img {
+    width: 88px;
+    height: 40px;
+  }
+
+  .hero-brand-lockup {
+    gap: 8px;
+    margin-bottom: 17px;
+  }
+
+  .hero-brand-caption {
+    font-size: 8px;
+    max-width: 85px;
+  }
+}
 }
 
 .brand {
