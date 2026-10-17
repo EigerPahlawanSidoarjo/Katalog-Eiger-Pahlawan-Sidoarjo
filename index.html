@@ -2,134 +2,1301 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Katalog Eiger Pahlawan Sidoarjo</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f4f4f4;
-    }
-    h1 { color: #24402d; }
-    #produk {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
-    .kartu {
-      background: white;
-      padding: 12px;
-      border-radius: 10px;
-    }
-    .kartu img {
-      width: 100%;
-      height: 180px;
-      object-fit: contain;
-    }
-    .harga { font-weight: bold; color: #e66b19; }
- 
-.modal{position:fixed;inset:0;z-index:1000;background:#07110dcc;display:none;align-items:center;justify-content:center;padding:18px}
-.modal.open{display:flex}
-.modal-panel{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:18px;width:min(680px,100%);max-height:88vh;overflow:auto;box-shadow:0 24px 80px #0005}
-.modal-head{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:20px;border-bottom:1px solid var(--line)}
-.modal-head h2{font-size:20px;margin:5px 0}
-.modal-close{border:1px solid var(--line);background:var(--canvas);color:var(--ink);border-radius:9px;padding:8px 12px;cursor:pointer}
-.modal-content{padding:18px 20px 22px}
-.variant-table{width:100%;border-collapse:collapse;font-size:13px}
-.variant-table th,.variant-table td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line)}
-.variant-table th{color:var(--muted);font-size:11px;text-transform:uppercase}
-.stock-ok{color:#16834a;font-weight:800}
-.stock-empty{color:#d64b35;font-weight:800}
-.variant-color{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 9px}
-.detail-btn{width:100%;margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--canvas);color:var(--ink);font-weight:750;cursor:pointer}
-@media(max-width:480px){.modal{padding:10px}.modal-head,.modal-content{padding-left:14px;padding-right:14px}.variant-table th,.variant-table td{padding:9px 5px;font-size:12px}}
- </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eiger Pahlawan Sidoarjo | Katalog Produk</title>
+
+<style>
+:root {
+  --green: #1d3325;
+  --orange: #f47721;
+  --bg: #f4f5f1;
+  --white: #ffffff;
+  --text: #202820;
+  --muted: #707970;
+  --line: #e1e5dd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button, select {
+  cursor: pointer;
+}
+
+.topbar {
+  background: var(--green);
+  color: white;
+  padding: 14px 5%;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.topbar span {
+  color: #ff9b4d;
+}
+
+.hero {
+  padding: 48px 6%;
+  color: white;
+  background: linear-gradient(120deg, #17281d, #39533b);
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.brand {
+  color: #ff9b4d;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 13px;
+}
+
+.hero h1 {
+  font-size: clamp(35px, 6vw, 65px);
+  line-height: 1.05;
+  margin: 18px 0;
+}
+
+.hero p {
+  line-height: 1.7;
+  max-width: 600px;
+  color: #e1e8df;
+}
+
+.hero-pill {
+  display: inline-block;
+  border: 1px solid #ffffff55;
+  border-radius: 30px;
+  padding: 9px 13px;
+  margin: 7px 5px 0 0;
+  font-size: 12px;
+}
+
+main {
+  max-width: 1200px;
+  padding: 30px 20px 50px;
+  margin: auto;
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.eyebrow {
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.section-head h2 {
+  margin: 8px 0 0;
+  font-size: 30px;
+}
+
+#count {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.tools {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 10px;
+  margin: 25px 0 18px;
+}
+
+.field {
+  width: 100%;
+  min-width: 0;
+  padding: 13px;
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--orange);
+}
+
+.categories {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 18px;
+}
+
+.cat {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 9px 15px;
+  white-space: nowrap;
+}
+
+.cat.active {
+  background: var(--orange);
+  color: white;
+  border-color: var(--orange);
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.visual {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: var(--orange);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 6px 9px;
+  border-radius: 5px;
+}
+
+.card-body {
+  padding: 14px;
+}
+
+.sku {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  overflow-wrap: anywhere;
+}
+
+.card h3 {
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 42px;
+  margin: 9px 0;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.price-note {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 5px;
+}
+
+.detail-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.detail-btn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.wa {
+  display: block;
+  text-align: center;
+  margin-top: 9px;
+  padding: 11px 8px;
+  border-radius: 8px;
+  background: #1c6b42;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 35px 18px;
+  text-align: center;
+  color: var(--muted);
+  background: white;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  line-height: 1.7;
+}
+
+/* POP UP DETAIL PRODUK */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-panel {
+  width: 100%;
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: white;
+  color: var(--text);
+  border-radius: 16px;
+  box-shadow: 0 20px 70px #0005;
+  animation: popupShow 0.2s ease-out;
+}
+
+@keyframes popupShow {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-head h2 {
+  font-size: 20px;
+  line-height: 1.4;
+  margin: 7px 0;
+}
+
+.modal-close {
+  flex-shrink: 0;
+  background: #f3f4f1;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--text);
+}
+
+.modal-content {
+  padding: 18px 20px 22px;
+}
+
+.variant-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.variant-table th,
+.variant-table td {
+  padding: 12px 9px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.variant-table th {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.variant-color {
+  display: inline-block;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.stock-ok {
+  color: #16834a;
+  font-weight: bold;
+}
+
+.stock-empty {
+  color: #d64b35;
+  font-weight: bold;
+}
+
+.notice {
+  margin-top: 25px;
+  padding: 15px;
+  background: #fff3e8;
+  border: 1px solid #f6d7bf;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+footer {
+  background: var(--green);
+  color: white;
+  padding: 25px 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+@media (max-width: 950px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .hero {
+    padding: 35px 20px;
+  }
+
+  main {
+    padding: 25px 12px 35px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .visual {
+    height: 150px;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  .card h3 {
+    font-size: 12px;
+  }
+
+  .price {
+    font-size: 15px;
+  }
+
+  .detail-btn,
+  .wa {
+    font-size: 10px;
+  }
+
+  .modal {
+    padding: 8px;
+  }
+
+  .modal-head,
+  .modal-content {
+    padding: 14px;
+  }
+
+  .variant-table th,
+  .variant-table td {
+    padding: 9px 5px;
+    font-size: 11px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <h1>EIGER PAHLAWAN SIDOARJO</h1>
-  <p id="status">Memuat katalog produk...</p>
-  <div id="produk"></div>
+<div class="topbar">
+  EIGER <span>• PAHLAWAN SIDOARJO</span>
+</div>
 
-  <script>
-    
-const CSV_URLS = [
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?gid=1076500592&single=true&output=csv',
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?output=csv&gid=1076500592'
-];
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand">EIGER PAHLAWAN SIDOARJO</div>
 
-    async function tampilkanProduk() {
-      const status = document.getElementById("status");
-      const area = document.getElementById("produk");
+    <h1>Gear up.<br>Go further.</h1>
 
-      try {
-        const response = await fetch(CSV_URL);
-        if (!response.ok) throw new Error("Data tidak dapat diakses");
+    <p>
+      Temukan perlengkapan petualangan dan kebutuhan harianmu.
+      Cari produk, cek warna dan ukuran, lalu tanyakan ketersediaan
+      langsung ke tim toko.
+    </p>
 
-        const csv = await response.text();
-        const baris = csv.trim().split(/\r?\n/);
+    <span class="hero-pill">Outdoor essentials</span>
+    <span class="hero-pill">Dekat GOR Sidoarjo</span>
+    <span class="hero-pill">Tanya via WhatsApp</span>
+  </div>
+</header>
 
-        // Memecah CSV sederhana; cocok untuk data
-        // yang tidak memiliki koma di dalam kolom.
-        const header = baris[0].split(",")
-          .map(x => x.replace(/^\uFEFF/, "").trim().toUpperCase());
+<main>
 
-        const kolom = nama => header.indexOf(nama);
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Find your next gear</div>
+      <h2>Katalog Produk</h2>
+    </div>
 
-        const idxNama = kolom("NAMA PRODUK");
-        const idxHarga = kolom("HARGA PROMO");
-        const idxFoto = kolom("FOTO PRODUK");
-        const idxStok = kolom("AVAILABLE QTY");
+    <div id="count">Memuat produk...</div>
+  </div>
 
-        if (idxNama < 0) {
-          throw new Error("Kolom NAMA PRODUK tidak ditemukan");
-        }
+  <div class="tools">
+    <input
+      id="search"
+      class="field"
+      type="search"
+      placeholder="Cari nama atau kode produk..."
+      aria-label="Cari produk"
+    >
 
-        area.innerHTML = "";
+    <select id="category" class="field" aria-label="Kategori">
+      <option value="Semua">Semua kategori</option>
+    </select>
 
-        baris.slice(1).forEach(line => {
-          const data = line.split(",");
-          const nama = data[idxNama] || "";
-          if (!nama.trim()) return;
+    <select id="size" class="field" aria-label="Ukuran">
+      <option value="Semua">Semua ukuran</option>
+    </select>
 
-          const harga = data[idxHarga] || "0";
-          const foto = data[idxFoto] || "";
-          const stok = data[idxStok] || "0";
+    <select id="sort" class="field" aria-label="Urutkan">
+      <option value="default">Urutan rekomendasi</option>
+      <option value="name">Nama A-Z</option>
+      <option value="low">Harga terendah</option>
+      <option value="high">Harga tertinggi</option>
+    </select>
+  </div>
 
-          const kartu = document.createElement("div");
-          kartu.className = "kartu";
+  <div class="categories" id="chips">
+    <button class="cat active" data-cat="Semua">
+      Semua produk
+    </button>
+  </div>
 
-          const gambar = document.createElement("img");
-          gambar.src = foto;
-          gambar.alt = nama;
-          gambar.onerror = () => gambar.remove();
+  <div class="grid" id="products"></div>
 
-          const judul = document.createElement("h3");
-          judul.textContent = nama;
+  <div class="notice">
+    <strong>Catatan:</strong>
+    Informasi harga dan stok mengikuti data Google Sheets yang
+    dipublikasikan. Stok dapat berubah. Konfirmasikan ketersediaan
+    kepada tim Eiger Pahlawan Sidoarjo sebelum berkunjung.
+  </div>
 
-          const hargaTeks = document.createElement("p");
-          hargaTeks.className = "harga";
-          hargaTeks.textContent = "Rp" +
-            Number(harga.replace(/[^\d]/g, "") || 0)
-              .toLocaleString("id-ID");
+</main>
 
-          const stokTeks = document.createElement("p");
-          stokTeks.textContent = "Stok: " + stok;
+<footer>
+  <strong>EIGER PAHLAWAN SIDOARJO</strong>
+  <br>
+  Dekat GOR Sidoarjo
+  <br>
+  Katalog produk dan informasi ketersediaan
+</footer>
 
-          kartu.append(gambar, judul, hargaTeks, stokTeks);
-          area.appendChild(kartu);
-        });
+<!-- HTML POP UP -->
+<div
+  class="modal"
+  id="productModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+>
+  <div class="modal-panel">
 
-        status.textContent = "Produk berhasil dimuat: " +
-          area.children.length;
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Detail ketersediaan</div>
+        <h2 id="modalTitle">Detail produk</h2>
+        <div class="sku" id="modalSku"></div>
+      </div>
 
-      } catch (error) {
-        status.textContent = "Gagal memuat katalog: " + error.message;
+      <button
+        class="modal-close"
+        type="button"
+        id="closeModal"
+        aria-label="Tutup pop up"
+      >
+        Tutup ✕
+      </button>
+    </div>
+
+    <div class="modal-content" id="modalContent"></div>
+
+  </div>
+</div>
+
+<script>
+/* ==========================================
+   1. LINK GOOGLE SHEETS
+========================================== */
+
+const CSV_URL =
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?gid=1076500592&single=true&output=csv';
+
+
+/* ==========================================
+   2. MENGAMBIL ELEMEN WEBSITE
+========================================== */
+
+const productsEl = document.getElementById('products');
+const searchEl = document.getElementById('search');
+const categoryEl = document.getElementById('category');
+const sizeEl = document.getElementById('size');
+const sortEl = document.getElementById('sort');
+const countEl = document.getElementById('count');
+const chipsEl = document.getElementById('chips');
+
+const modalEl = document.getElementById('productModal');
+const modalTitleEl = document.getElementById('modalTitle');
+const modalSkuEl = document.getElementById('modalSku');
+const modalContentEl = document.getElementById('modalContent');
+const closeModalEl = document.getElementById('closeModal');
+
+let products = [];
+let activeCategory = 'Semua';
+
+
+/* ==========================================
+   3. FUNGSI BANTUAN
+========================================== */
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+}
+
+function formatRupiah(value) {
+  return 'Rp' + Number(value || 0).toLocaleString('id-ID');
+}
+
+function parseNumber(value) {
+  const result = Number(
+    String(value || '').replace(/[^\d.-]/g, '')
+  );
+
+  return Number.isFinite(result) ? result : 0;
+}
+
+function normalizeCategory(value) {
+  const text = String(value || '').toUpperCase();
+
+  if (text.includes('BAG') || text.includes('TAS')) {
+    return 'Tas';
+  }
+
+  if (
+    text.includes('FOOTWEAR') ||
+    text.includes('SHOE') ||
+    text.includes('SANDAL') ||
+    text.includes('SEPATU')
+  ) {
+    return 'Sepatu';
+  }
+
+  if (
+    text.includes('APPAREL') ||
+    text.includes('CLOTHING') ||
+    text.includes('PAKAIAN')
+  ) {
+    return 'Apparel';
+  }
+
+  if (
+    text.includes('ACCESSOR') ||
+    text.includes('AKSESORI') ||
+    text.includes('HEADWEAR') ||
+    text.includes('CAP')
+  ) {
+    return 'Aksesori';
+  }
+
+  return value || 'Lainnya';
+}
+
+
+/* ==========================================
+   4. MEMBACA DATA CSV
+========================================== */
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let quoted = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+
+    if (
+      char === '"' &&
+      quoted &&
+      text[i + 1] === '"'
+    ) {
+      cell += '"';
+      i++;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === ',' && !quoted) {
+      row.push(cell);
+      cell = '';
+    } else if (
+      (char === '\n' || char === '\r') &&
+      !quoted
+    ) {
+      if (char === '\r' && text[i + 1] === '\n') {
+        i++;
       }
+
+      row.push(cell);
+
+      if (row.some(value => value.trim())) {
+        rows.push(row);
+      }
+
+      row = [];
+      cell = '';
+    } else {
+      cell += char;
+    }
+  }
+
+  if (cell.length || row.length) {
+    row.push(cell);
+    rows.push(row);
+  }
+
+  const headers = (rows.shift() || []).map(header =>
+    header.replace(/^\uFEFF/, '').trim().toUpperCase()
+  );
+
+  return rows.map(values =>
+    Object.fromEntries(
+      headers.map((header, index) => [
+        header,
+        (values[index] || '').trim()
+      ])
+    )
+  );
+}
+
+
+/* ==========================================
+   5. MENGELOMPOKKAN PRODUK DAN VARIANNYA
+========================================== */
+
+function convertRowsToProducts(rows) {
+  const groups = new Map();
+
+  rows.forEach(row => {
+    const sku = row['KODE PRODUK'] || '';
+    const name = row['NAMA PRODUK'] || '';
+
+    if (!sku && !name) return;
+
+    const color = row['WARNA'] || 'Tidak diketahui';
+    const productSize = row['UKURAN'] || 'NOS';
+    const image = row['FOTO PRODUK'] || '';
+
+    const normalPrice = parseNumber(row['HARGA NORMAL']);
+    const promoPrice = parseNumber(row['HARGA PROMO']);
+    const discount = parseNumber(row['DISCOUNT']);
+    const quantity = parseNumber(row['AVAILABLE QTY']);
+
+    const category = normalizeCategory(row['KATEGORI']);
+    const detail = row['KATEGORI DETAIL'] || '';
+
+    const productKey = [sku, name, category].join('|');
+
+    if (!groups.has(productKey)) {
+      groups.set(productKey, {
+        sku,
+        name,
+        category,
+        detail,
+        image,
+        normal: normalPrice,
+        price: promoPrice > 0 ? promoPrice : normalPrice,
+        discount,
+        variants: new Map()
+      });
     }
 
-    tampilkanProduk();
-  </script>
+    const product = groups.get(productKey);
+
+    if (!product.image && image) {
+      product.image = image;
+    }
+
+    const variantKey = [
+      color,
+      productSize,
+      normalPrice,
+      promoPrice,
+      discount
+    ].join('|');
+
+    if (!product.variants.has(variantKey)) {
+      product.variants.set(variantKey, {
+        color,
+        size: productSize,
+        qty: quantity,
+        normal: normalPrice,
+        promo: promoPrice,
+        discount
+      });
+    } else {
+      product.variants.get(variantKey).qty += quantity;
+    }
+  });
+
+  return [...groups.values()].map(product => {
+    const variants = [...product.variants.values()];
+
+    product.colors = [
+      ...new Set(variants.map(variant => variant.color))
+    ];
+
+    product.sizes = [
+      ...new Set(variants.map(variant => variant.size))
+    ];
+
+    product.stock = variants.reduce(
+      (total, variant) => total + variant.qty,
+      0
+    );
+
+    const variantWithPromo = variants.find(
+      variant => variant.promo > 0
+    );
+
+    product.price =
+      variantWithPromo?.promo ||
+      variants[0]?.normal ||
+      product.price;
+
+    product.normal = variants[0]?.normal || product.normal;
+
+    product.discount =
+      variants.find(variant => variant.discount > 0)?.discount ||
+      product.discount;
+
+    return product;
+  }).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+
+/* ==========================================
+   6. MENYIAPKAN FILTER
+========================================== */
+
+function setupFilters() {
+  const categories = [
+    ...new Set(products.map(product => product.category))
+  ].sort();
+
+  categoryEl.innerHTML =
+    '<option value="Semua">Semua kategori</option>' +
+    categories.map(category => `
+      <option value="${escapeHTML(category)}">
+        ${escapeHTML(category)}
+      </option>
+    `).join('');
+
+  chipsEl.innerHTML = ['Semua', ...categories].map(
+    (category, index) => `
+      <button
+        class="cat ${index === 0 ? 'active' : ''}"
+        data-cat="${escapeHTML(category)}"
+      >
+        ${index === 0 ? 'Semua produk' : escapeHTML(category)}
+      </button>
+    `
+  ).join('');
+
+  const sizes = [
+    ...new Set(products.flatMap(product => product.sizes))
+  ].filter(Boolean).sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true })
+  );
+
+  sizeEl.innerHTML =
+    '<option value="Semua">Semua ukuran</option>' +
+    sizes.map(size => `
+      <option value="${escapeHTML(size)}">
+        ${escapeHTML(size)}
+      </option>
+    `).join('');
+}
+
+
+/* ==========================================
+   7. MENAMPILKAN KARTU PRODUK
+========================================== */
+
+function drawProducts() {
+  let filtered = products.filter(product => {
+    const matchesCategory =
+      activeCategory === 'Semua' ||
+      product.category === activeCategory;
+
+    const matchesSelect =
+      categoryEl.value === 'Semua' ||
+      product.category === categoryEl.value;
+
+    const matchesSize =
+      sizeEl.value === 'Semua' ||
+      product.sizes.includes(sizeEl.value);
+
+    const searchText = `
+      ${product.name}
+      ${product.sku}
+      ${product.category}
+      ${product.detail}
+      ${product.colors.join(' ')}
+    `.toLowerCase();
+
+    const matchesSearch = searchText.includes(
+      searchEl.value.trim().toLowerCase()
+    );
+
+    return (
+      matchesCategory &&
+      matchesSelect &&
+      matchesSize &&
+      matchesSearch
+    );
+  });
+
+  if (sortEl.value === 'name') {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  if (sortEl.value === 'low') {
+    filtered.sort((a, b) => a.price - b.price);
+  }
+
+  if (sortEl.value === 'high') {
+    filtered.sort((a, b) => b.price - a.price);
+  }
+
+  countEl.textContent =
+    `Menampilkan ${filtered.length} produk`;
+
+  if (!filtered.length) {
+    productsEl.innerHTML = `
+      <div class="empty">
+        Produk tidak ditemukan.<br>
+        Coba kata kunci, kategori, atau ukuran lainnya.
+      </div>
+    `;
+    return;
+  }
+
+  productsEl.innerHTML = filtered.map(product => {
+    const index = products.indexOf(product);
+
+    const hasPromo =
+      product.price > 0 &&
+      product.normal > product.price;
+
+    const message =
+      `Halo Eiger Pahlawan Sidoarjo, saya ingin bertanya tentang ` +
+      `${product.name} (kode ${product.sku}). ` +
+      `Mohon info warna, ukuran, dan stok yang tersedia.`;
+
+    const photo = product.image
+      ? `
+        <img
+          class="product-image"
+          src="${escapeHTML(product.image)}"
+          alt="${escapeHTML(product.name)}"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        >
+      `
+      : `
+        <div style="font-size:12px;color:#707970">
+          Foto belum tersedia
+        </div>
+      `;
+
+    return `
+      <article class="card">
+
+        <div class="visual">
+          ${hasPromo ? '<span class="tag">PROMO</span>' : ''}
+          ${photo}
+        </div>
+
+        <div class="card-body">
+
+          <div class="sku">
+            KODE PRODUK · ${escapeHTML(product.sku)}
+          </div>
+
+          <h3>${escapeHTML(product.name)}</h3>
+
+          <div class="price">
+            ${formatRupiah(product.price)}
+          </div>
+
+          ${
+            hasPromo
+              ? `
+                <div class="price-note">
+                  <s>${formatRupiah(product.normal)}</s>
+                  ${product.discount
+                    ? ` · Diskon ${escapeHTML(product.discount)}%`
+                    : ''
+                  }
+                </div>
+              `
+              : ''
+          }
+
+          <div class="price-note">
+            ${product.colors.length} warna ·
+            ${product.sizes.length} pilihan ukuran
+          </div>
+
+          <div class="price-note">
+            Total stok tercatat: ${product.stock} pcs
+          </div>
+
+          <button
+            class="detail-btn"
+            type="button"
+            data-product-index="${index}"
+          >
+            Lihat warna, ukuran & stok ↗
+          </button>
+
+          <a
+            class="wa"
+            href="https://wa.me/?text=${encodeURIComponent(message)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tanya via WhatsApp
+          </a>
+
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+
+/* ==========================================
+   8. MEMBUKA POP UP DETAIL PRODUK
+========================================== */
+
+function openProductModal(product) {
+  if (!product) return;
+
+  modalTitleEl.textContent = product.name;
+  modalSkuEl.textContent = 'KODE PRODUK: ' + product.sku;
+
+  const variants = [...product.variants.values()];
+
+  modalContentEl.innerHTML = `
+    <p class="price-note">
+      Detail ketersediaan berdasarkan warna dan ukuran.
+    </p>
+
+    <div style="overflow-x:auto">
+      <table class="variant-table">
+
+        <thead>
+          <tr>
+            <th>Warna</th>
+            <th>Ukuran</th>
+            <th>Stok</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${
+            variants.map(variant => `
+              <tr>
+                <td>
+                  <span class="variant-color">
+                    ${escapeHTML(variant.color)}
+                  </span>
+                </td>
+
+                <td>
+                  ${escapeHTML(variant.size)}
+                </td>
+
+                <td class="${
+                  variant.qty > 0 ? 'stock-ok' : 'stock-empty'
+                }">
+                  ${
+                    variant.qty > 0
+                      ? 'Tersedia · ' + variant.qty + ' pcs'
+                      : 'Stok habis'
+                  }
+                </td>
+              </tr>
+            `).join('')
+          }
+        </tbody>
+
+      </table>
+    </div>
+
+    <p class="price-note" style="margin-top:15px">
+      Stok dapat berubah. Silakan konfirmasi ke tim
+      Eiger Pahlawan Sidoarjo sebelum melakukan pembelian.
+    </p>
+  `;
+
+  modalEl.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  closeModalEl.focus();
+}
+
+
+/* ==========================================
+   9. MENUTUP POP UP
+========================================== */
+
+function closeProductModal() {
+  modalEl.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+
+/* ==========================================
+   10. EVENT TOMBOL POP UP
+========================================== */
+
+// Klik tombol detail pada setiap kartu produk.
+productsEl.addEventListener('click', event => {
+  const button = event.target.closest('[data-product-index]');
+
+  if (!button) return;
+
+  const index = Number(button.dataset.productIndex);
+
+  openProductModal(products[index]);
+});
+
+// Klik tombol tutup.
+closeModalEl.addEventListener(
+  'click',
+  closeProductModal
+);
+
+// Klik area gelap di luar panel pop up.
+modalEl.addEventListener('click', event => {
+  if (event.target === modalEl) {
+    closeProductModal();
+  }
+});
+
+// Tekan Escape untuk menutup pop up.
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeProductModal();
+  }
+});
+
+
+/* ==========================================
+   11. EVENT PENCARIAN DAN FILTER
+========================================== */
+
+searchEl.addEventListener('input', drawProducts);
+
+sizeEl.addEventListener('change', drawProducts);
+
+sortEl.addEventListener('change', drawProducts);
+
+categoryEl.addEventListener('change', () => {
+  activeCategory = 'Semua';
+
+  document.querySelectorAll('.cat').forEach(button => {
+    button.classList.toggle(
+      'active',
+      button.dataset.cat === 'Semua'
+    );
+  });
+
+  drawProducts();
+});
+
+chipsEl.addEventListener('click', event => {
+  const button = event.target.closest('button[data-cat]');
+
+  if (!button) return;
+
+  activeCategory = button.dataset.cat;
+  categoryEl.value = 'Semua';
+
+  document.querySelectorAll('.cat').forEach(item => {
+    item.classList.toggle('active', item === button);
+  });
+
+  drawProducts();
+});
+
+
+/* ==========================================
+   12. MEMUAT PRODUK DARI GOOGLE SHEETS
+========================================== */
+
+async function loadProducts() {
+  countEl.textContent = 'Memuat produk dari Google Sheets...';
+
+  productsEl.innerHTML = `
+    <div class="empty">
+      Sedang mengambil data produk...
+    </div>
+  `;
+
+  try {
+    const response = await fetch(
+      CSV_URL + '&_=' + Date.now(),
+      { cache: 'no-store' }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        'Google Sheets merespons HTTP ' + response.status
+      );
+    }
+
+    const csvText = await response.text();
+
+    if (!csvText.trim()) {
+      throw new Error('Data CSV kosong.');
+    }
+
+    const rows = parseCSV(csvText);
+
+    if (
+      !rows.length ||
+      !Object.prototype.hasOwnProperty.call(
+        rows[0],
+        'KODE PRODUK'
+      )
+    ) {
+      throw new Error(
+        'Kolom KODE PRODUK tidak ditemukan. Periksa header CSV.'
+      );
+    }
+
+    products = convertRowsToProducts(rows);
+
+    if (!products.length) {
+      throw new Error('Tidak ada produk valid di data CSV.');
+    }
+
+    setupFilters();
+    drawProducts();
+
+  } catch (error) {
+    console.error('Gagal memuat katalog:', error);
+
+    countEl.textContent = 'Produk belum dapat dimuat';
+
+    productsEl.innerHTML = `
+      <div class="empty">
+        <strong>Data produk belum berhasil dimuat.</strong>
+        <p>
+          Pastikan Google Sheets sudah dipublikasikan ke web
+          dalam format CSV dan dapat dibuka oleh publik.
+        </p>
+        <p>
+          Periksa apakah header kolom menggunakan nama berikut:
+          KODE PRODUK, NAMA PRODUK, KATEGORI, WARNA, UKURAN,
+          HARGA NORMAL, HARGA PROMO, DISCOUNT, AVAILABLE QTY,
+          dan FOTO PRODUK.
+        </p>
+        <button class="cat" id="retryLoad" type="button">
+          Coba muat ulang
+        </button>
+      </div>
+    `;
+
+    document.getElementById('retryLoad')
+      .addEventListener('click', loadProducts);
+  }
+}
+
+
+/* ==========================================
+   13. JALANKAN KATALOG
+========================================== */
+
+loadProducts();
+
+</script>
+
 </body>
 </html>
