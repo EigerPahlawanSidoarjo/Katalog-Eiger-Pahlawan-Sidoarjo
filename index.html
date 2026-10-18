@@ -2048,14 +2048,34 @@ async function loadProducts() {
     '<div class="empty">Sedang mengambil data produk...</div>';
 
   for (const url of CSV_URLS) {
+    let timeoutId;
+    const controller = new AbortController();
+
     try {
-      const response = await fetch(url, { cache:'no-store' });
+      // Jangan biarkan indikator memuat berjalan selamanya jika Google Sheets tidak merespons.
+      const timeout = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+          controller.abort();
+          reject(new Error('Permintaan Google Sheets melewati batas 15 detik. Periksa koneksi atau akses publik spreadsheet.'));
+        }, 15000);
+      });
+
+      const request = fetch(url, {
+        cache: 'no-store',
+        signal: controller.signal
+      });
+
+      const response = await Promise.race([request, timeout]);
 
       if (!response.ok) {
         throw new Error('Google Sheets merespons HTTP ' + response.status);
       }
 
       const csv = await response.text();
+
+      if (!csv.trim()) {
+        throw new Error('Data CSV kosong. Pastikan tab spreadsheet dipublikasikan sebagai CSV.');
+      }
 
       if (!csv.trim()) {
         throw new Error('Data CSV kosong');
@@ -2086,6 +2106,8 @@ async function loadProducts() {
 
     } catch (error) {
       errors.push(error.message || String(error));
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
     }
   }
 
