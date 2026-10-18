@@ -987,6 +987,225 @@ function categoryName(value) {
 }
 
 
+const selectedSlides = new Map();
+const selectedSizes = new Map();
+
+function csvToProducts(rows) {
+  const groups = new Map();
+
+  rows.forEach(r => {
+    const sku = r["KODE PRODUK"] || "";
+    const name = r["NAMA PRODUK"] || "";
+    if (!sku && !name) return;
+
+    const color = r["WARNA"] || "Tidak diketahui";
+    const size = r["UKURAN"] || "NOS";
+    const image = (r["FOTO PRODUK"] || "").trim();
+    const normal = num(r["HARGA NORMAL"]);
+    const promo = num(r["HARGA PROMO"]);
+    const discount = num(r["DISCOUNT"]);
+    const qty = num(r["AVAILABLE QTY"]);
+    const category = categoryName(r["KATEGORI"]);
+    const detail = (r["KATEGORI DETAIL"] || "").trim();
+
+    const key = `${sku}|${name}|${category}`;
+
+    if (!groups.has(key)) {
+      groups.set(key, {
+        sku, name, category, detail,
+        images: [],
+        variants: new Map(),
+        normal, price: promo || normal,
+        discount
+      });
+    }
+
+    const p = groups.get(key);
+
+    if (!p.detail && detail) p.detail = detail;
+
+    if (image && !p.images.some(img => img.url === image)) {
+      p.images.push({ url: image, color });
+    }
+
+    const variantKey =
+      `${color}|${size}|${normal}|${promo}|${discount}`;
+
+    if (!p.variants.has(variantKey)) {
+      p.variants.set(variantKey, {
+        color, size, qty, normal, promo, discount
+      });
+    } else {
+      p.variants.get(variantKey).qty += qty;
+    }
+  });
+
+  return [...groups.values()].map(p => {
+    const variants = [...p.variants.values()];
+
+    p.colors = [...new Set(variants.map(v => v.color))];
+    p.sizes = [...new Set(variants.map(v => v.size))];
+    p.stock = variants.reduce((sum, v) => sum + v.qty, 0);
+
+    p.normal = variants.find(v => v.normal > 0)?.normal || p.normal;
+    p.price = variants.find(v => v.promo > 0)?.promo || p.normal;
+    p.discount = variants.find(v => v.discount > 0)?.discount || p.discount;
+
+    return p;
+  });
+}
+
+function setupCategoryDropdown(products) {
+  const categorySelect = document.getElementById("category");
+  let detailSelect = document.getElementById("detailCategory");
+
+  if (!detailSelect) {
+    detailSelect = document.createElement("select");
+    detailSelect.id = "detailCategory";
+    detailSelect.className = "field";
+    detailSelect.setAttribute("aria-label", "Pilih subkategori");
+
+    categorySelect.insertAdjacentElement(
+      "afterend",
+      detailSelect
+    );
+  }
+
+  function updateDetails() {
+    const selectedCategory = categorySelect.value;
+
+    const details = [
+      ...new Set(
+        products
+          .filter(p =>
+            selectedCategory === "Semua" ||
+            p.category === selectedCategory
+          )
+          .map(p => p.detail)
+          .filter(Boolean)
+      )
+    ].sort();
+
+    detailSelect.innerHTML =
+      '<option value="Semua">Semua subkategori</option>' +
+      details.map(detail =>
+        `<option value="${esc(detail)}">${esc(detail)}</option>`
+      ).join("");
+
+    detailSelect.value = "Semua";
+  }
+
+  categorySelect.addEventListener("change", () => {
+    updateDetails();
+    draw();
+  });
+
+  detailSelect.addEventListener("change", draw);
+  updateDetails();
+}
+
+function getStockForSize(product, size, color) {
+  return [...product.variants.values()]
+    .filter(v => v.size === size && v.color === color)
+    .reduce((total, v) => total + v.qty, 0);
+}
+
+function renderSizeButtons(product, productIndex, color) {
+  const selectedSize =
+    selectedSizes.get(productIndex) || product.sizes[0] || "";
+
+  return `
+    <div class="size-picks">
+      ${product.sizes.map(size => {
+        const stock = getStockForSize(product, size, color);
+        const active = size === selectedSize ? "active" : "";
+        const out = stock <= 0 ? "out" : "";
+
+        return `
+          <button
+            type="button"
+            class="size-pick ${active} ${out}"
+            data-size-pick="${esc(size)}"
+            data-product-index="${productIndex}"
+            ${stock <= 0 ? 'aria-label="Stok habis"' : ""}
+          >
+            ${esc(size)}
+          </button>
+        `;
+      }).join("")}
+    </div>
+    <div class="size-stock">
+      ${getStockForSize(
+        product,
+        selectedSize,
+        color
+      ) > 0
+        ? `Ukuran ${esc(selectedSize)} tersedia`
+        : `Ukuran ${esc(selectedSize)} habis`}
+    </div>
+  `;
+}
+
+function renderProductGallery(product, productIndex) {
+  const images = product.images || [];
+  const slide = selectedSlides.get(productIndex) || 0;
+  const current = images[slide];
+
+  if (!current) {
+    return '<div class="product-gallery">Foto belum tersedia</div>';
+  }
+
+  return `
+    <div class="product-gallery">
+      <img
+        src="${esc(current.url)}"
+        alt="${esc(product.name)} - ${esc(current.color)}"
+        loading="lazy"
+      />
+
+      ${images.length > 1 ? `
+        <button
+          class="gallery-arrow prev"
+          data-slide="prev"
+          data-product-index="${productIndex}"
+          type="button"
+        >‹</button>
+
+        <button
+          class="gallery-arrow next"
+          data-slide="next"
+          data-product-index="${productIndex}"
+          type="button"
+        >›</button>
+
+        <span class="gallery-count">
+          ${slide + 1}/${images.length}
+        </span>
+      ` : ""}
+
+      <span class="gallery-color">
+        ${esc(current.color)}
+      </span>
+    </div>
+  `;
+}
+
+document.getElementById("products").addEventListener("click", event => {
+  const button = event.target.closest("[data-slide]");
+  if (!button) return;
+
+  const index = Number(button.dataset.productIndex);
+  const product = products[index];
+  if (!product || !product.images.length) return;
+
+  const total = product.images.length;
+  const current = selectedSlides.get(index) || 0;
+  const direction = button.dataset.slide === "next" ? 1 : -1;
+
+  selectedSlides.set(index, (current + direction + total) % total);
+  draw();
+});
+
 /* =========================================================
    6. MENGUBAH DATA CSV MENJADI PRODUK
    ========================================================= */
