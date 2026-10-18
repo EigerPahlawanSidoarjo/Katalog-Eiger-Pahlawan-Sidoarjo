@@ -664,7 +664,7 @@ footer {
   color:#b94a00;
   box-shadow:0 0 0 2px #f4772117;
 }
-.modal-size-btn:disabled { opacity:.45; text-decoration:line-through; cursor:not-allowed; }
+.modal-size-btn.sold-out { border-style:dashed; color:#b33c2c; background:#fff6f4; }
 .modal-stock-panel {
   padding:14px;
   border:1px solid #f0d7c4;
@@ -1376,22 +1376,6 @@ function renderProductGallery(product, productIndex) {
   `;
 }
 
-document.getElementById("products").addEventListener("click", event => {
-  const button = event.target.closest("[data-slide]");
-  if (!button) return;
-
-  const index = Number(button.dataset.productIndex);
-  const product = products[index];
-  if (!product || !product.images.length) return;
-
-  const total = product.images.length;
-  const current = selectedSlides.get(index) || 0;
-  const direction = button.dataset.slide === "next" ? 1 : -1;
-
-  selectedSlides.set(index, (current + direction + total) % total);
-  draw();
-});
-
 /* =========================================================
    6. MENGUBAH DATA CSV MENJADI PRODUK
    ========================================================= */
@@ -1751,7 +1735,7 @@ function renderProductModal() {
         <div class="modal-sizes">
           ${sizesForColor.length ? sizesForColor.map(sizeValue => {
             const variant = [...product.variants.values()].find(v => v.color===modalColor && v.size===sizeValue);
-            return `<button type="button" class="modal-size-btn ${sizeValue===modalSize?'active':''}" data-modal-size="${esc(sizeValue)}" ${!variant || variant.qty<=0?'disabled':''}>${esc(sizeValue)}</button>`;
+            return `<button type="button" class="modal-size-btn ${sizeValue===modalSize?'active':''} ${!variant || variant.qty<=0?'sold-out':''}" data-modal-size="${esc(sizeValue)}">${esc(sizeValue)}${!variant || variant.qty<=0?' · Habis':''}</button>`;
           }).join('') : '<span class="price-note">Ukuran belum tercantum</span>'}
         </div>
         <div class="modal-stock-panel">
