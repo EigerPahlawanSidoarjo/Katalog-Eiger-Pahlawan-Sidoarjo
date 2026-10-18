@@ -269,25 +269,45 @@ button,input,select {
 
 .tools {
   display:grid;
-  grid-template-columns:minmax(220px,1fr) repeat(4,minmax(140px,180px));
-  gap:10px;
-  margin:22px 0 20px;
+  grid-template-columns:minmax(220px,1.4fr) repeat(4,minmax(135px,1fr));
+  gap:12px;
+  margin:24px 0 20px;
+  padding:16px;
+  border:1px solid #f0d4bf;
+  border-radius:18px;
+  background:linear-gradient(135deg,#fff 0%,#fff7f0 100%);
+  box-shadow:0 8px 24px #7d3a100c;
 }
 
 .field {
   width:100%;
   min-width:0;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:white;
+  min-height:48px;
+  border:1px solid #e8d9cc;
+  border-radius:12px;
+  background-color:#fff;
   color:var(--ink);
-  padding:13px 14px;
+  padding:13px 40px 13px 14px;
   outline:none;
+  box-shadow:0 2px 5px #20231f06;
+  transition:border-color .18s,box-shadow .18s,transform .18s;
 }
+select.field {
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f47721' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  font-size:13px;
+  font-weight:700;
+}
+.field:hover { border-color:#f5b17f; }
+
 
 .field:focus {
   border-color:var(--orange);
-  box-shadow:0 0 0 3px #f477211c;
+  box-shadow:0 0 0 4px #f4772120;
+  transform:translateY(-1px);
 }
 
 .categories {
@@ -325,17 +345,22 @@ button,input,select {
 .card {
   background:white;
   border:1px solid #e8e5df;
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
   min-width:0;
   box-shadow:0 5px 18px #22210d08;
-  transition:transform .18s,box-shadow .18s;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+  cursor:pointer;
 }
+.card:focus-visible { outline:3px solid #f47721; outline-offset:3px; }
 
 .card:hover {
-  transform:translateY(-3px);
-  box-shadow:0 12px 28px #22210d12;
+  transform:translateY(-4px);
+  border-color:#f4b17f;
+  box-shadow:0 16px 32px #7d3a1017;
 }
+.card:hover .visual img { transform:scale(1.035); }
+.visual img { transition:transform .25s; }
 
 .visual {
   height:190px;
@@ -352,6 +377,50 @@ button,input,select {
   height:100%;
   object-fit:contain;
   padding:10px;
+}
+.gallery-arrow {
+  position:absolute;
+  z-index:3;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:50%;
+  background:#20231fce;
+  color:#fff;
+  font-size:23px;
+  line-height:1;
+  cursor:pointer;
+}
+.gallery-arrow:hover { background:var(--orange); }
+.gallery-arrow.prev { left:8px; }
+.gallery-arrow.next { right:8px; }
+.gallery-count {
+  position:absolute;
+  right:9px;
+  bottom:9px;
+  border-radius:99px;
+  padding:4px 7px;
+  background:#20231fce;
+  color:white;
+  font-size:10px;
+  font-weight:800;
+}
+.gallery-color {
+  position:absolute;
+  left:9px;
+  bottom:9px;
+  max-width:65%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  border-radius:99px;
+  padding:5px 8px;
+  background:#ffffffed;
+  color:#20231f;
+  font-size:10px;
+  font-weight:800;
 }
 
 .tag {
@@ -491,13 +560,134 @@ footer {
 .modal-panel {
   background:white;
   color:var(--ink);
-  border:1px solid var(--line);
-  border-radius:18px;
-  width:min(680px,100%);
-  max-height:88vh;
+  border:1px solid #f0d7c4;
+  border-radius:22px;
+  width:min(900px,100%);
+  max-height:92vh;
   overflow:auto;
   box-shadow:0 24px 80px #0005;
+  animation:modalRise .22s ease-out;
 }
+@keyframes modalRise {
+  from { opacity:0; transform:translateY(12px) scale(.985); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+.modal-product-layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:24px;
+}
+.modal-gallery {
+  min-width:0;
+}
+.modal-photo-stage {
+  height:360px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #f1e5db;
+  border-radius:18px;
+  background:linear-gradient(145deg,#fffaf6,#fff);
+  overflow:hidden;
+}
+.modal-photo-stage img {
+  width:100%;
+  height:100%;
+  padding:16px;
+  object-fit:contain;
+}
+.modal-photo-arrow {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:38px;
+  border:1px solid #ffffffc9;
+  border-radius:50%;
+  background:#20231fdc;
+  color:#fff;
+  font-size:25px;
+  line-height:1;
+  cursor:pointer;
+}
+.modal-photo-arrow:hover { background:var(--orange); }
+.modal-photo-arrow.prev { left:12px; }
+.modal-photo-arrow.next { right:12px; }
+.modal-photo-count {
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  padding:6px 10px;
+  border-radius:99px;
+  background:#20231fdc;
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+}
+.modal-thumbs {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:12px 2px 4px;
+}
+.modal-thumb {
+  width:64px;
+  height:64px;
+  flex:0 0 64px;
+  border:2px solid #e8e5df;
+  border-radius:12px;
+  background:#fff;
+  overflow:hidden;
+  padding:3px;
+  cursor:pointer;
+}
+.modal-thumb.active { border-color:var(--orange); box-shadow:0 0 0 2px #f477211b; }
+.modal-thumb img { width:100%; height:100%; object-fit:contain; }
+.modal-color-label { font-size:12px; color:var(--muted); margin:10px 0 0; }
+.modal-info { min-width:0; }
+.modal-price { font-size:25px; font-weight:900; margin:8px 0 4px; }
+.modal-colors,.modal-sizes { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px; }
+.modal-color-btn,.modal-size-btn {
+  border:1px solid #e5ded7;
+  border-radius:10px;
+  background:#fff;
+  color:var(--ink);
+  padding:9px 12px;
+  font-size:12px;
+  font-weight:750;
+  cursor:pointer;
+}
+.modal-color-btn.active,.modal-size-btn.active {
+  border-color:var(--orange);
+  background:#fff1e6;
+  color:#b94a00;
+  box-shadow:0 0 0 2px #f4772117;
+}
+.modal-size-btn:disabled { opacity:.45; text-decoration:line-through; cursor:not-allowed; }
+.modal-stock-panel {
+  padding:14px;
+  border:1px solid #f0d7c4;
+  border-radius:14px;
+  background:#fff8f2;
+  margin:12px 0 16px;
+}
+.modal-stock-number { font-size:20px; font-weight:900; margin-top:4px; }
+.modal-stock-number.in { color:#16834a; }
+.modal-stock-number.out { color:#d64b35; }
+.modal-wa {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  background:var(--orange);
+  color:white;
+  font-weight:850;
+  text-decoration:none;
+}
+.modal-wa:hover { background:#d95f0b; }
 
 .modal-head {
   display:flex;
@@ -564,12 +754,17 @@ footer {
 
 @media(max-width:1000px) {
   .tools {
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    padding:12px;
   }
+
+  .tools input { grid-column:1/-1; }
 
   .grid {
     grid-template-columns:repeat(3,minmax(0,1fr));
   }
+  .modal-product-layout { grid-template-columns:1fr; gap:18px; }
+  .modal-photo-stage { height:min(68vw,360px); }
 }
 
 @media(max-width:620px) {
@@ -666,6 +861,9 @@ footer {
     padding-left:14px;
     padding-right:14px;
   }
+  .modal-photo-stage { height:280px; }
+  .modal-product-layout { gap:14px; }
+  .modal-price { font-size:22px; }
 
   .variant-table th,
   .variant-table td {
@@ -1081,6 +1279,10 @@ function setupCategoryDropdown(products) {
 
   categorySelect.addEventListener("change", () => {
     updateDetails();
+    active = "Semua";
+    document.querySelectorAll(".cat").forEach(button => {
+      button.classList.toggle("active", button.dataset.cat === "Semua");
+    });
     draw();
   });
 
@@ -1423,16 +1625,21 @@ function draw() {
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
       : `https://wa.me/?text=${encodeURIComponent(message)}`;
 
-    const imageHTML = p.image
-      ? `<img src="${esc(p.image)}"
-          alt="${esc(p.name)}"
+    const cardImages = p.images && p.images.length ? p.images : (p.image ? [{url:p.image,color:p.colors[0] || ''}] : []);
+    const cardSlide = selectedSlides.get(products.indexOf(p)) || 0;
+    const cardImage = cardImages[cardSlide] || cardImages[0];
+    const imageHTML = cardImage
+      ? `<img src="${esc(cardImage.url)}"
+          alt="${esc(p.name)} - ${esc(cardImage.color || '')}"
           loading="lazy"
           onerror="this.style.display='none';this.nextElementSibling.hidden=false">
-         <div hidden style="color:#697067;font-size:12px">Foto tidak tersedia</div>`
+         <div hidden style="color:#697067;font-size:12px">Foto tidak tersedia</div>
+         ${cardImages.length > 1 ? `<button type="button" class="gallery-arrow prev" data-slide="prev" data-product-index="${products.indexOf(p)}" aria-label="Foto sebelumnya">‹</button><button type="button" class="gallery-arrow next" data-slide="next" data-product-index="${products.indexOf(p)}" aria-label="Foto berikutnya">›</button><span class="gallery-count">${cardSlide+1}/${cardImages.length}</span>` : ''}
+         ${cardImage.color ? `<span class="gallery-color">${esc(cardImage.color)}</span>` : ''}`
       : `<div style="color:#697067;font-size:12px">Foto belum tersedia</div>`;
 
     return `
-      <article class="card">
+      <article class="card" data-product-index="${products.indexOf(p)}" tabindex="0" role="button" aria-label="Lihat detail ${esc(p.name)}">
         <div class="visual">
           ${hasPromo
             ? `<span class="tag">DISKON${p.discount ? ' ' + esc(p.discount) + '%' : ''}</span>`
@@ -1461,8 +1668,8 @@ function draw() {
           <button
             class="detail-btn"
             type="button"
-            data-product-index="${products.indexOf(p)}">
-            Lihat warna, ukuran & stok ↗
+            data-open-product="${products.indexOf(p)}">
+            Lihat foto, warna, ukuran & stok ↗
           </button>
 
           <a class="wa"
@@ -1482,53 +1689,92 @@ function draw() {
    9. DETAIL STOK WARNA DAN UKURAN
    ========================================================= */
 
-function openProductModal(product) {
-  if (!product) return;
+let modalProduct = null;
+let modalImageIndex = 0;
+let modalColor = '';
+let modalSize = '';
 
-  document.getElementById('modalTitle').textContent = product.name;
-  document.getElementById('modalSku').textContent =
-    'KODE PRODUK: ' + product.sku;
+function modalImages(product) {
+  return product.images && product.images.length
+    ? product.images
+    : (product.image ? [{url:product.image,color:product.colors?.[0] || 'Warna'}] : []);
+}
 
-  const variants = [...product.variants.values()];
+function renderProductModal() {
+  if (!modalProduct) return;
+  const product = modalProduct;
+  const images = modalImages(product);
+  const currentImage = images[modalImageIndex] || images[0];
+  if (currentImage && currentImage.color && !modalColor) modalColor = currentImage.color;
+
+  const colors = [...new Set([
+    ...product.colors,
+    ...images.map(image => image.color).filter(Boolean)
+  ])];
+  if (!modalColor || !colors.includes(modalColor)) modalColor = colors[0] || '';
+  const sizesForColor = [...new Set([...product.variants.values()]
+    .filter(v => !modalColor || v.color === modalColor)
+    .map(v => v.size))].sort((a,b) => a.localeCompare(b,undefined,{numeric:true}));
+  if (!sizesForColor.includes(modalSize)) modalSize = sizesForColor[0] || '';
+
+  const selectedVariant = [...product.variants.values()].find(v =>
+    v.color === modalColor && v.size === modalSize
+  );
+  const shownImages = images.filter(image => !image.color || image.color === modalColor);
+  const imageList = shownImages.length ? shownImages : images;
+  if (currentImage && !imageList.includes(currentImage)) modalImageIndex = 0;
+  const finalImage = imageList[modalImageIndex] || imageList[0];
+  const hasPromo = product.price > 0 && product.normal > product.price;
+  const message = `Halo Eiger Pahlawan Sidoarjo, saya ingin bertanya tentang ${product.name} (kode ${product.sku}), warna ${modalColor}, ukuran ${modalSize}. Mohon konfirmasi harga dan stok terbaru.`;
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
   document.getElementById('modalContent').innerHTML = `
-    <p class="price-note">
-      Ketersediaan stok di update setiap hari pada pagi hari.
-    </p>
-
-    <div style="overflow-x:auto">
-      <table class="variant-table">
-        <thead>
-          <tr>
-            <th>Warna</th>
-            <th>Ukuran</th>
-            <th>Ketersediaan</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          ${variants.map(v => `
-            <tr>
-              <td>
-                <span class="variant-color">${esc(v.color)}</span>
-              </td>
-              <td>${esc(v.size)}</td>
-              <td class="${v.qty > 0 ? 'stock-ok' : 'stock-empty'}">
-                ${v.qty > 0
-                  ? 'Tersedia · ' + v.qty + ' pcs'
-                  : 'Stok habis'}
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
+    <div class="modal-product-layout">
+      <div class="modal-gallery">
+        <div class="modal-photo-stage">
+          ${finalImage ? `<img src="${esc(finalImage.url)}" alt="${esc(product.name)} - ${esc(modalColor)}" onerror="this.style.opacity='.25'">` : '<div class="price-note">Foto produk belum tersedia</div>'}
+          ${imageList.length > 1 ? `<button type="button" class="modal-photo-arrow prev" data-modal-slide="-1" aria-label="Foto sebelumnya">‹</button><button type="button" class="modal-photo-arrow next" data-modal-slide="1" aria-label="Foto berikutnya">›</button><span class="modal-photo-count">${modalImageIndex+1}/${imageList.length}</span>` : ''}
+        </div>
+        ${imageList.length > 1 ? `<div class="modal-thumbs">${imageList.map((image,index) => `<button type="button" class="modal-thumb ${index===modalImageIndex?'active':''}" data-modal-image="${index}" aria-label="Pilih foto warna ${esc(image.color || index+1)}"><img src="${esc(image.url)}" alt="${esc(image.color || product.name)}"></button>`).join('')}</div>` : ''}
+        <div class="modal-color-label">${esc(finalImage?.color || modalColor || 'Foto produk')}</div>
+      </div>
+      <div class="modal-info">
+        <div class="sku">KODE PRODUK · ${esc(product.sku)}</div>
+        <h3 style="font-size:21px;line-height:1.3;margin:8px 0">${esc(product.name)}</h3>
+        <div class="modal-price">${fmt(selectedVariant?.promo > 0 ? selectedVariant.promo : selectedVariant?.normal || product.price)}</div>
+        ${hasPromo ? `<div class="price-note"><s>${fmt(product.normal)}</s> · Harga promo</div>` : ''}
+        <div class="price-note" style="margin-top:18px;font-weight:800;color:var(--ink)">PILIH WARNA</div>
+        <div class="modal-colors">
+          ${colors.length ? colors.map(color => `<button type="button" class="modal-color-btn ${color===modalColor?'active':''}" data-modal-color="${esc(color)}">${esc(color)}</button>`).join('') : '<span class="price-note">Warna belum tercantum</span>'}
+        </div>
+        <div class="price-note" style="font-weight:800;color:var(--ink)">PILIH UKURAN</div>
+        <div class="modal-sizes">
+          ${sizesForColor.length ? sizesForColor.map(sizeValue => {
+            const variant = [...product.variants.values()].find(v => v.color===modalColor && v.size===sizeValue);
+            return `<button type="button" class="modal-size-btn ${sizeValue===modalSize?'active':''}" data-modal-size="${esc(sizeValue)}" ${!variant || variant.qty<=0?'disabled':''}>${esc(sizeValue)}</button>`;
+          }).join('') : '<span class="price-note">Ukuran belum tercantum</span>'}
+        </div>
+        <div class="modal-stock-panel">
+          <div class="price-note">KETERSEDIAAN STOK</div>
+          <div class="modal-stock-number ${selectedVariant?.qty>0?'in':'out'}">${selectedVariant?.qty>0 ? 'Tersedia · '+selectedVariant.qty+' pcs' : 'Stok habis / tidak tersedia'}</div>
+          <div class="price-note" style="margin-top:6px">${esc(modalColor || 'Warna belum dipilih')} · Ukuran ${esc(modalSize || '-')}</div>
+        </div>
+        <a class="modal-wa" href="${waUrl}" target="_blank" rel="noopener">Tanya produk ini via WhatsApp ↗</a>
+        <p class="price-note" style="margin-top:12px">Stok dan harga dapat berubah. Konfirmasi kembali ke Eiger Pahlawan Sidoarjo.</p>
+      </div>
     </div>
-
-    <p class="price-note" style="margin-top:14px">
-      Stok dapat berubah. Konfirmasi kembali ke tim Eiger Pahlawan Sidoarjo.
-    </p>
   `;
+}
 
+function openProductModal(product) {
+  if (!product) return;
+  modalProduct = product;
+  modalImageIndex = 0;
+  modalColor = '';
+  modalSize = '';
+  document.getElementById('modalTitle').textContent = product.name;
+  document.getElementById('modalSku').textContent = 'KODE PRODUK: ' + product.sku;
+  renderProductModal();
   productModal.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('closeModal').focus();
@@ -1539,11 +1785,65 @@ function closeProductModal() {
   document.body.style.overflow = '';
 }
 
-productsEl.addEventListener('click', event => {
-  const button = event.target.closest('[data-product-index]');
+productModal.addEventListener('click', event => {
+  const slideButton = event.target.closest('[data-modal-slide]');
+  const imageButton = event.target.closest('[data-modal-image]');
+  const colorButton = event.target.closest('[data-modal-color]');
+  const sizeButton = event.target.closest('[data-modal-size]');
 
-  if (button) {
-    openProductModal(products[Number(button.dataset.productIndex)]);
+  if (slideButton) {
+    const images = modalImages(modalProduct);
+    const colorImages = images.filter(image => !image.color || image.color === modalColor);
+    const imageList = colorImages.length ? colorImages : images;
+    if (imageList.length) {
+      modalImageIndex = (modalImageIndex + Number(slideButton.dataset.modalSlide) + imageList.length) % imageList.length;
+      renderProductModal();
+    }
+  } else if (imageButton) {
+    modalImageIndex = Number(imageButton.dataset.modalImage);
+    renderProductModal();
+  } else if (colorButton) {
+    modalColor = colorButton.dataset.modalColor;
+    modalImageIndex = 0;
+    modalSize = '';
+    renderProductModal();
+  } else if (sizeButton) {
+    modalSize = sizeButton.dataset.modalSize;
+    renderProductModal();
+  }
+});
+
+productsEl.addEventListener('click', event => {
+  const slideButton = event.target.closest('[data-slide]');
+  if (slideButton) {
+    const index = Number(slideButton.dataset.productIndex);
+    const product = products[index];
+    const images = product?.images || [];
+    if (images.length > 1) {
+      const current = selectedSlides.get(index) || 0;
+      const direction = slideButton.dataset.slide === 'next' ? 1 : -1;
+      selectedSlides.set(index, (current + direction + images.length) % images.length);
+      draw();
+    }
+    event.stopPropagation();
+    return;
+  }
+
+  const openButton = event.target.closest('[data-open-product]');
+  if (openButton) {
+    openProductModal(products[Number(openButton.dataset.openProduct)]);
+    return;
+  }
+
+  if (event.target.closest('a,button')) return;
+  const card = event.target.closest('.card[data-product-index]');
+  if (card) openProductModal(products[Number(card.dataset.productIndex)]);
+});
+
+productsEl.addEventListener('keydown', event => {
+  if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.card[data-product-index]')) {
+    event.preventDefault();
+    openProductModal(products[Number(event.target.dataset.productIndex)]);
   }
 });
 
