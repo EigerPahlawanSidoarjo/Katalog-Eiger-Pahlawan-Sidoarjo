@@ -2144,10 +2144,11 @@ function renderHomeHighlights() {
   categoryGrid.innerHTML = categoryEntries.map(([cat,items]) => {
     const featured = items.find(p => p.images?.length || p.image) || items[0];
     const image = featured?.images?.[0]?.url || featured?.image || '';
-    return `<button type="button" class="home-category-card" data-home-category="${esc(cat)}" aria-label="Lihat kategori ${esc(cat)}">
-      ${image ? `<img src="${esc(image)}" alt="${esc(cat)}" loading="lazy" onerror="this.style.display='none'">` : ''}
+    const displayCategory = /^sepatu$/i.test(cat.trim()) ? 'Footwear' : cat;
+    return `<button type="button" class="home-category-card" data-home-category="${esc(cat)}" aria-label="Lihat kategori ${esc(displayCategory)}">
+      ${image ? `<img src="${esc(image)}" alt="${esc(displayCategory)}" loading="lazy" onerror="this.style.display='none'">` : ''}
       <span class="home-category-arrow">↗</span>
-      <span class="home-category-copy"><strong>${esc(cat)}</strong><span>${items.length} pilihan produk</span></span>
+      <span class="home-category-copy"><strong>${esc(displayCategory)}</strong><span>${items.length} pilihan produk</span></span>
     </button>`;
   }).join('') || '<div class="home-category-loading">Kategori produk belum tersedia.</div>';
 
