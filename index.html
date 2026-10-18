@@ -1256,15 +1256,33 @@ function parseCSV(text) {
     rows.push(row);
   }
 
-  const headers = (rows.shift() || []).map(h =>
-    h.replace(/^\uFEFF/, '').trim().toUpperCase()
+  // Cari baris header meski CSV memiliki baris judul di atasnya.
+  const normalizeHeader = value =>
+    String(value || '')
+      .replace(/^\\uFEFF/, '')
+      .replace(/\\s+/g, ' ')
+      .trim()
+      .toUpperCase();
+
+  const headerIndex = rows.findIndex((row, index) =>
+    index < 15 &&
+    row.some(cell => normalizeHeader(cell) === 'KODE PRODUK') &&
+    row.some(cell => normalizeHeader(cell) === 'NAMA PRODUK')
   );
 
-  return rows.map(r =>
-    Object.fromEntries(
-      headers.map((h, i) => [h, (r[i] || '').trim()])
-    )
-  );
+  if (headerIndex < 0) {
+    throw new Error('Baris header KODE PRODUK dan NAMA PRODUK tidak ditemukan pada CSV.');
+  }
+
+  const headers = rows[headerIndex].map(normalizeHeader);
+
+  return rows.slice(headerIndex + 1)
+    .filter(r => r.some(value => String(value || '').trim()))
+    .map(r =>
+      Object.fromEntries(
+        headers.map((h, i) => [h, (r[i] || '').trim()])
+      )
+    );
 }
 
 function num(value) {
