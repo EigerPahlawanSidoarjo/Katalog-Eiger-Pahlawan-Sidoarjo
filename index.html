@@ -1257,12 +1257,11 @@ function parseCSV(text) {
   }
 
   // Cari baris header meski CSV memiliki baris judul di atasnya.
-  const normalizeHeader = value =>
-    String(value || '')
-      .replace(/^\\uFEFF/, '')
-      .replace(/\\s+/g, ' ')
-      .trim()
-      .toUpperCase();
+  const normalizeHeader = value => {
+    let header = String(value || '').trim();
+    if (header.charCodeAt(0) === 65279) header = header.slice(1);
+    return header.split(' ').filter(Boolean).join(' ').toUpperCase();
+  };
 
   const headerIndex = rows.findIndex((row, index) =>
     index < 15 &&
