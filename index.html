@@ -234,6 +234,96 @@ button,input,select {
   color:#ffffff16;
 }
 
+.home-discovery {
+  padding:34px 20px 10px;
+  background:linear-gradient(180deg,#fff8f2 0%,#fff 100%);
+  border-bottom:1px solid #f2e6dc;
+}
+.home-discovery-inner { max-width:1180px; margin:0 auto; }
+.home-section-heading,.home-category-heading,.home-deal-heading {
+  display:flex; align-items:end; justify-content:space-between; gap:18px;
+}
+.home-section-heading { margin-bottom:22px; }
+.home-kicker { display:block; color:#e76612; font-size:10px; font-weight:900; letter-spacing:.16em; }
+.home-section-heading h2 { margin:7px 0 5px; font-size:clamp(24px,3vw,34px); letter-spacing:-.04em; }
+.home-section-heading p { margin:0; color:#6f716d; font-size:13px; line-height:1.6; }
+.home-heading-mark { color:#f47721; font-size:clamp(20px,3vw,34px); font-weight:1000; letter-spacing:-.06em; }
+.home-promo-highlight {
+  display:grid; grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);
+  min-height:215px; position:relative; overflow:hidden; border-radius:22px;
+  background:linear-gradient(112deg,#242622 0%,#34352f 55%,#f47721 55%,#ff9b47 100%);
+  box-shadow:0 14px 32px #7d3a101a; color:white; margin-bottom:34px;
+}
+.home-promo-copy { padding:27px clamp(20px,4vw,42px); position:relative; z-index:2; }
+.home-promo-tag { display:inline-flex; align-items:center; gap:8px; font-size:10px; letter-spacing:.15em; font-weight:900; color:#ffb777; }
+.home-pulse { width:7px; height:7px; border-radius:50%; background:#ff8b2d; box-shadow:0 0 0 4px #f477212a; }
+.home-promo-copy h3 { max-width:430px; font-size:clamp(23px,3.4vw,37px); line-height:1.08; letter-spacing:-.04em; margin:13px 0 9px; }
+.home-promo-copy p { max-width:430px; margin:0 0 18px; color:#e6e6df; font-size:12px; line-height:1.7; }
+.home-promo-cta { display:inline-flex; align-items:center; gap:18px; padding:12px 16px; border:0; border-radius:10px; background:#f47721; color:white; font-weight:850; font-size:12px; cursor:pointer; transition:transform .18s,background .18s; }
+.home-promo-cta:hover { transform:translateY(-2px); background:#e76612; }
+.home-promo-cta span { font-size:17px; }
+.home-promo-art { position:relative; min-height:215px; overflow:hidden; }
+.promo-art-circle { position:absolute; width:250px; height:250px; border:1px solid #ffffff60; border-radius:50%; top:-25px; left:10%; box-shadow:0 0 0 22px #ffffff0c,0 0 0 48px #ffffff0b; }
+.promo-art-label { position:absolute; top:36px; left:18%; z-index:2; color:#fff; font-size:13px; line-height:1.05; letter-spacing:.2em; transform:rotate(-8deg); }
+.promo-art-label strong { font-size:clamp(30px,4vw,50px); letter-spacing:-.05em; }
+.promo-art-percent { position:absolute; right:10%; bottom:-35px; color:#ffffff25; font-size:clamp(170px,22vw,270px); line-height:1; font-weight:1000; letter-spacing:-.1em; }
+.promo-art-stripe { position:absolute; height:14px; width:130%; left:-10%; bottom:30px; background:#20231f; transform:rotate(-18deg); opacity:.75; }
+.home-category-heading,.home-deal-heading { margin:0 0 16px; }
+.home-category-heading h3,.home-deal-heading h3 { margin:6px 0 0; font-size:clamp(18px,2vw,24px); letter-spacing:-.03em; }
+.home-view-all { border:0; background:transparent; color:#c9550a; font-size:12px; font-weight:850; cursor:pointer; white-space:nowrap; padding:8px 0; }
+.home-view-all:hover { color:#8c3600; }
+.home-view-all span { font-size:17px; margin-left:5px; }
+.home-category-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:34px; }
+.home-category-card { position:relative; display:flex; align-items:end; min-height:185px; overflow:hidden; border:1px solid #eee1d6; border-radius:17px; padding:0; text-align:left; background:#f2eee9; cursor:pointer; isolation:isolate; transition:transform .2s,box-shadow .2s,border-color .2s; }
+.home-category-card:hover { transform:translateY(-4px); border-color:#f47721; box-shadow:0 14px 28px #7d3a1018; }
+.home-category-card img { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .3s; }
+.home-category-card:hover img { transform:scale(1.06); }
+.home-category-card:after { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(180deg,#1110 25%,#151613d9 100%); }
+.home-category-copy { width:100%; padding:16px 15px; color:#fff; }
+.home-category-copy strong { display:block; font-size:17px; font-weight:900; }
+.home-category-copy span { display:block; margin-top:4px; color:#ffffffd9; font-size:11px; }
+.home-category-arrow { position:absolute; right:13px; top:13px; display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:#ffffffeb; color:#e76612; font-size:18px; font-weight:900; }
+.home-category-loading { grid-column:1/-1; padding:25px; border:1px dashed #ead7c7; border-radius:15px; color:#777; font-size:12px; text-align:center; }
+.home-deal-heading { margin-top:4px; }
+.home-deal-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; padding-bottom:22px; }
+.home-deal-card { display:flex; align-items:center; gap:12px; min-width:0; padding:11px; border:1px solid #eee3da; border-radius:15px; background:#fff; cursor:pointer; text-align:left; transition:transform .18s,border-color .18s,box-shadow .18s; }
+.home-deal-card:hover { transform:translateY(-2px); border-color:#f47721; box-shadow:0 9px 22px #7d3a1010; }
+.home-deal-image { flex:0 0 78px; width:78px; height:86px; display:grid; place-items:center; border-radius:11px; background:#faf6f1; overflow:hidden; }
+.home-deal-image img { width:100%; height:100%; object-fit:contain; }
+.home-deal-info { min-width:0; }
+.home-deal-badge { display:inline-block; margin-bottom:6px; padding:4px 7px; border-radius:5px; background:#fff0e5; color:#d95600; font-size:9px; font-weight:950; }
+.home-deal-info strong { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:#242622; font-size:12px; line-height:1.4; }
+.home-deal-price { margin-top:7px; color:#d95600; font-size:14px; font-weight:950; }
+.home-deal-old { display:block; margin-top:3px; color:#888; font-size:10px; text-decoration:line-through; }
+@media(max-width:800px) {
+  .home-category-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .home-deal-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .home-category-card { min-height:165px; }
+  .home-promo-highlight { grid-template-columns:minmax(0,1.2fr) minmax(140px,.8fr); }
+  .home-promo-copy { padding:23px 20px; }
+}
+@media(max-width:520px) {
+  .home-discovery { padding:27px 14px 6px; }
+  .home-section-heading { align-items:start; }
+  .home-heading-mark { display:none; }
+  .home-promo-highlight { grid-template-columns:minmax(0,1fr) 100px; min-height:235px; }
+  .home-promo-copy { padding:22px 16px; }
+  .home-promo-copy h3 { font-size:24px; }
+  .home-promo-copy p { font-size:11px; }
+  .home-promo-art { min-height:235px; }
+  .promo-art-circle { width:180px; height:180px; left:-25px; top:25px; }
+  .promo-art-label { left:5px; top:60px; font-size:10px; }
+  .promo-art-label strong { font-size:27px; }
+  .promo-art-percent { right:-35px; bottom:0; font-size:150px; }
+  .home-category-grid { gap:10px; }
+  .home-category-card { min-height:150px; border-radius:14px; }
+  .home-category-copy { padding:12px; }
+  .home-category-copy strong { font-size:15px; }
+  .home-deal-grid { grid-template-columns:1fr; gap:9px; }
+  .home-deal-image { flex-basis:72px; width:72px; height:76px; }
+  .home-category-heading,.home-deal-heading { align-items:start; }
+  .home-view-all { font-size:10px; }
+}
 .main {
   max-width:1180px;
   margin:auto;
@@ -927,6 +1017,56 @@ footer {
     <div class="hero-mark" aria-hidden="true">E.</div>
   </header>
 
+  <section class="home-discovery" aria-label="Promo dan kategori produk">
+    <div class="home-discovery-inner">
+      <div class="home-section-heading">
+        <div>
+          <span class="home-kicker">EIGER PAHLAWAN SIDOARJO</span>
+          <h2>Temukan pilihan terbaikmu</h2>
+          <p>Jelajahi kategori favorit dan temukan produk promo pilihan.</p>
+        </div>
+        <span class="home-heading-mark">GEAR UP.</span>
+      </div>
+
+      <div class="home-promo-highlight">
+        <div class="home-promo-copy">
+          <span class="home-promo-tag"><span class="home-pulse"></span> PROMO PILIHAN</span>
+          <h3>Waktunya upgrade perlengkapanmu!</h3>
+          <p>Lihat produk dengan harga promo yang tersedia di katalog Eiger Pahlawan Sidoarjo.</p>
+          <button type="button" class="home-promo-cta" id="homePromoButton">Lihat produk promo <span>↗</span></button>
+        </div>
+        <div class="home-promo-art" aria-hidden="true">
+          <div class="promo-art-circle"></div>
+          <div class="promo-art-label">SPECIAL<br><strong>DEALS</strong></div>
+          <div class="promo-art-percent">%</div>
+          <div class="promo-art-stripe"></div>
+        </div>
+      </div>
+
+      <div class="home-category-heading">
+        <div>
+          <span class="home-kicker">PILIH SESUAI KEBUTUHAN</span>
+          <h3>Belanja berdasarkan kategori</h3>
+        </div>
+        <button type="button" class="home-view-all" id="homeViewAll">Lihat semua produk <span>→</span></button>
+      </div>
+      <div class="home-category-grid" id="homeCategoryGrid">
+        <div class="home-category-loading">Menyiapkan kategori produk...</div>
+      </div>
+
+      <div class="home-deal-heading">
+        <div>
+          <span class="home-kicker">DEAL PILIHAN</span>
+          <h3>Produk promo untuk kamu</h3>
+        </div>
+        <button type="button" class="home-view-all" id="homeViewDeals">Lihat semua promo <span>→</span></button>
+      </div>
+      <div class="home-deal-grid" id="homeDealGrid">
+        <div class="home-category-loading">Memuat produk promo...</div>
+      </div>
+    </div>
+  </section>
+
   <main class="main">
 
     <div class="section-head">
@@ -1012,7 +1152,7 @@ footer {
    ========================================================= */
 
 // Masukkan URL gambar promo langsung jika tersedia.
-const PROMO_IMAGE_URL = 'https://drive.google.com/drive/folders/1jdkR-QebqSbCTimsvx6efenDs27eYiZv';
+const PROMO_IMAGE_URL = ''; // Isi dengan URL gambar promo langsung (bukan link folder Google Drive) bila tersedia.
 
 // Masukkan nomor WhatsApp toko.
 // Format internasional tanpa tanda +, spasi, atau tanda hubung.
@@ -1923,6 +2063,7 @@ async function loadProducts() {
       setFilters();
       setupCategoryDropdown(products);
       draw();
+      renderHomeHighlights();
 
       return;
 
@@ -1975,6 +2116,105 @@ async function loadProducts() {
   document.getElementById('retry-load')
     ?.addEventListener('click', loadProducts);
 }
+
+
+/* =========================================================
+   11. HIGHLIGHT BERANDA: PROMO & KATEGORI
+   ========================================================= */
+
+function renderHomeHighlights() {
+  const categoryGrid = document.getElementById('homeCategoryGrid');
+  const dealGrid = document.getElementById('homeDealGrid');
+
+  const categoryGroups = new Map();
+  products.forEach(product => {
+    const key = product.cat || 'Lainnya';
+    if (!categoryGroups.has(key)) categoryGroups.set(key, []);
+    categoryGroups.get(key).push(product);
+  });
+
+  const preferredOrder = ['Apparel','Bags','Footwear','Accessories','Tas','Sepatu','Aksesori','Pakaian'];
+  const categoryEntries = [...categoryGroups.entries()].sort((a,b) => {
+    const ai = preferredOrder.findIndex(name => name.toLowerCase() === a[0].toLowerCase());
+    const bi = preferredOrder.findIndex(name => name.toLowerCase() === b[0].toLowerCase());
+    if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    return a[0].localeCompare(b[0]);
+  });
+
+  categoryGrid.innerHTML = categoryEntries.map(([cat,items]) => {
+    const featured = items.find(p => p.images?.length || p.image) || items[0];
+    const image = featured?.images?.[0]?.url || featured?.image || '';
+    return `<button type="button" class="home-category-card" data-home-category="${esc(cat)}" aria-label="Lihat kategori ${esc(cat)}">
+      ${image ? `<img src="${esc(image)}" alt="${esc(cat)}" loading="lazy" onerror="this.style.display='none'">` : ''}
+      <span class="home-category-arrow">↗</span>
+      <span class="home-category-copy"><strong>${esc(cat)}</strong><span>${items.length} pilihan produk</span></span>
+    </button>`;
+  }).join('') || '<div class="home-category-loading">Kategori produk belum tersedia.</div>';
+
+  const deals = products
+    .filter(p => p.price > 0 && p.normal > p.price)
+    .sort((a,b) => ((b.normal-b.price)/b.normal) - ((a.normal-a.price)/a.normal))
+    .slice(0,4);
+
+  dealGrid.innerHTML = deals.map(product => {
+    const index = products.indexOf(product);
+    const image = product.images?.[0]?.url || product.image || '';
+    const discount = product.normal > 0 ? Math.round((product.normal-product.price)/product.normal*100) : 0;
+    return `<button type="button" class="home-deal-card" data-home-product="${index}">
+      <span class="home-deal-image">${image ? `<img src="${esc(image)}" alt="${esc(product.name)}" loading="lazy" onerror="this.style.display='none'">` : '<span>Foto</span>'}</span>
+      <span class="home-deal-info">
+        <span class="home-deal-badge">DISKON ${discount}%</span>
+        <strong>${esc(product.name)}</strong>
+        <span class="home-deal-price">${fmt(product.price)}</span>
+        <span class="home-deal-old">${fmt(product.normal)}</span>
+      </span>
+    </button>`;
+  }).join('') || '<div class="home-category-loading">Belum ada produk promo yang terdeteksi dari data harga saat ini.</div>';
+}
+
+document.getElementById('homeCategoryGrid').addEventListener('click', event => {
+  const button = event.target.closest('[data-home-category]');
+  if (!button) return;
+  category.value = button.dataset.homeCategory;
+  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').dispatchEvent(new Event('change'));
+  active = 'Semua';
+  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Semua'));
+  draw();
+  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('homeDealGrid').addEventListener('click', event => {
+  const button = event.target.closest('[data-home-product]');
+  if (!button) return;
+  openProductModal(products[Number(button.dataset.homeProduct)]);
+});
+
+document.getElementById('homePromoButton').addEventListener('click', () => {
+  active = 'Diskon';
+  category.value = 'Semua';
+  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').value = 'Semua';
+  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Diskon'));
+  draw();
+  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('homeViewDeals').addEventListener('click', () => {
+  active = 'Diskon';
+  category.value = 'Semua';
+  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').value = 'Semua';
+  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Diskon'));
+  draw();
+  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('homeViewAll').addEventListener('click', () => {
+  active = 'Semua';
+  category.value = 'Semua';
+  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').value = 'Semua';
+  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Semua'));
+  draw();
+  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
+});
 
 
 /* =========================================================
