@@ -2061,18 +2061,21 @@ async function loadProducts() {
         }, 15000);
       });
 
-      const request = fetch(url, {
-        cache: 'no-store',
-        signal: controller.signal
-      });
+      const request = (async () => {
+        const response = await fetch(url, {
+          cache: 'no-store',
+          signal: controller.signal
+        });
 
-      const response = await Promise.race([request, timeout]);
+        if (!response.ok) {
+          throw new Error('Google Sheets merespons HTTP ' + response.status);
+        }
 
-      if (!response.ok) {
-        throw new Error('Google Sheets merespons HTTP ' + response.status);
-      }
+        return await response.text();
+      })();
 
-      const csv = await response.text();
+      // Batas waktu mencakup fetch dan pembacaan isi respons CSV.
+      const csv = await Promise.race([request, timeout]);
 
       if (!csv.trim()) {
         throw new Error('Data CSV kosong. Pastikan tab spreadsheet dipublikasikan sebagai CSV.');
