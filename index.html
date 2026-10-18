@@ -1688,9 +1688,6 @@ function renderProductModal() {
   if (!modalProduct) return;
   const product = modalProduct;
   const images = modalImages(product);
-  const currentImage = images[modalImageIndex] || images[0];
-  if (currentImage && currentImage.color && !modalColor) modalColor = currentImage.color;
-
   const colors = [...new Set([
     ...product.colors,
     ...images.map(image => image.color).filter(Boolean)
@@ -1706,7 +1703,7 @@ function renderProductModal() {
   );
   const shownImages = images.filter(image => !image.color || image.color === modalColor);
   const imageList = shownImages.length ? shownImages : images;
-  if (currentImage && !imageList.includes(currentImage)) modalImageIndex = 0;
+  if (modalImageIndex >= imageList.length) modalImageIndex = 0;
   const finalImage = imageList[modalImageIndex] || imageList[0];
   const hasPromo = product.price > 0 && product.normal > product.price;
   const message = `Halo Eiger Pahlawan Sidoarjo, saya ingin bertanya tentang ${product.name} (kode ${product.sku}), warna ${modalColor}, ukuran ${modalSize}. Mohon konfirmasi harga dan stok terbaru.`;
