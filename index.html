@@ -46,21 +46,6 @@ button,input,select {
 }
 
 
-<!-- Logo Eiger dari URL gambar -->
-<img
-  class="eiger-logo-img"
-  src="https://d1yutv2xslo29o.cloudfront.net/product/variant/media/web/910001150_GREEN_1_158f.webp"
-  alt="Logo Eiger"
->
-
-  
-<img
-  class="hero-logo-img"
-  src="https://d1yutv2xslo29o.cloudfront.net/product/variant/media/web/910001150_GREEN_1_158f.webp"
-  alt="Logo Eiger"
->
-}
-
 .top-brand strong {
   color:#ff9b4d;
 }
@@ -153,7 +138,6 @@ button,input,select {
     font-size: 8px;
     max-width: 85px;
   }
-}
 }
 
 .brand {
@@ -285,7 +269,7 @@ button,input,select {
 
 .tools {
   display:grid;
-  grid-template-columns:minmax(220px,1fr) 210px 170px 180px;
+  grid-template-columns:minmax(220px,1fr) repeat(4,minmax(140px,180px));
   gap:10px;
   margin:22px 0 20px;
 }
@@ -307,7 +291,7 @@ button,input,select {
 }
 
 .categories {
-  display:flex;
+  display:none;
   gap:8px;
   overflow-x:auto;
   padding:2px 0 14px;
@@ -615,7 +599,7 @@ footer {
     gap:8px;
   }
 
-  .hero-promo img {https://drive.google.com/drive/folders/1jdkR-QebqSbCTimsvx6efenDs27eYiZv
+  .hero-promo img {
     width:42%;
     height:100px;
   }
@@ -990,7 +974,7 @@ function categoryName(value) {
 const selectedSlides = new Map();
 const selectedSizes = new Map();
 
-function csvToProducts(rows) {
+function csvToProductsLegacy(rows) {
   const groups = new Map();
 
   rows.forEach(r => {
@@ -1079,7 +1063,7 @@ function setupCategoryDropdown(products) {
         products
           .filter(p =>
             selectedCategory === "Semua" ||
-            p.category === selectedCategory
+            p.cat === selectedCategory
           )
           .map(p => p.detail)
           .filter(Boolean)
@@ -1236,8 +1220,9 @@ function csvToProducts(rows) {
         sku,
         name,
         cat,
-        detail: r['KATEGORI DETAIL'] || '',
+        detail: (r['KATEGORI DETAIL'] || '').trim(),
         image,
+        images: [],
         price: promo > 0 ? promo : normal,
         normal,
         discount,
@@ -1249,6 +1234,12 @@ function csvToProducts(rows) {
 
     if (!product.image && image) {
       product.image = image;
+    }
+    if (image && !product.images.some(item => item.url === image)) {
+      product.images.push({ url: image, color });
+    }
+    if (!product.detail && r['KATEGORI DETAIL']) {
+      product.detail = String(r['KATEGORI DETAIL']).trim();
     }
 
     const variantKey = [
@@ -1361,6 +1352,11 @@ function draw() {
       category.value === 'Semua' ||
       p.cat === category.value;
 
+    const detailSelect = document.getElementById('detailCategory');
+    const matchesDetail =
+      !detailSelect || detailSelect.value === 'Semua' ||
+      p.detail === detailSelect.value;
+
     const matchesSize =
       size.value === 'Semua' ||
       p.sizes.includes(size.value);
@@ -1375,6 +1371,7 @@ function draw() {
     return (
       matchesActive &&
       matchesCategory &&
+      matchesDetail &&
       matchesSize &&
       matchesSearch
     );
@@ -1643,6 +1640,7 @@ async function loadProducts() {
       products = loaded;
 
       setFilters();
+      setupCategoryDropdown(products);
       draw();
 
       return;
