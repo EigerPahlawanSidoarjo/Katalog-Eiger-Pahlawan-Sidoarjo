@@ -2176,7 +2176,7 @@ document.getElementById('homeCategoryGrid').addEventListener('click', event => {
   const button = event.target.closest('[data-home-category]');
   if (!button) return;
   category.value = button.dataset.homeCategory;
-  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').dispatchEvent(new Event('change'));
+  category.dispatchEvent(new Event('change'));
   active = 'Semua';
   document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Semua'));
   draw();
