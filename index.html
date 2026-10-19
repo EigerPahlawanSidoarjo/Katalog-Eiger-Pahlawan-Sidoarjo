@@ -362,6 +362,13 @@ select.field option {padding:12px;background:#fff;color:#20231f;font-weight:600}
 .home-category-copy {display:flex;flex-direction:column;gap:8px;padding:12px}
 .home-category-copy strong {font-size:14px}
 .home-category-copy small {font-size:11px;color:var(--muted)}
+.category-card-link {display:inline-flex;align-items:center;gap:5px;color:#d65f12;font-size:11px;font-weight:850;margin-top:2px}
+.home-category-card {width:100%;text-align:left;border:1px solid #eee5dc;border-radius:15px;background:#fff;overflow:hidden;cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s;padding:0;display:flex;flex-direction:column;min-width:0}
+.home-category-card:hover,.home-category-card:focus-visible {transform:translateY(-3px);border-color:#f47721;box-shadow:0 9px 22px #3d25120f;outline:none}
+.home-category-image {height:138px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#f7f7f3,#fff0e3);overflow:hidden}
+.home-category-image img {width:100%;height:100%;object-fit:contain;padding:12px}
+.home-category-copy {display:flex;flex-direction:column;gap:8px;padding:12px}
+
 .home-category-card {cursor:pointer}
 .home-category-card:hover {transform:translateY(-3px);border-color:#f47721;box-shadow:0 9px 22px #3d25120f}
 .home-category-image {width:100%;border:0;padding:0;cursor:pointer}
@@ -1374,35 +1381,44 @@ function categoryGroup(cat) {
 function renderHomeCategories(cats) {
   const container = document.getElementById('homeCategoryGrid');
   if (!container) return;
-  const groups = ['Apparel','Tas','Footwear','Aksesori'];
-  const groupItems = groups.map(group => {
-    const matchingCats = cats.filter(cat => categoryGroup(cat) === group);
-    const matching = products.filter(p => matchingCats.includes(p.cat));
+
+  const groups = ['Apparel','Tas','Footwear','Aksesori','Lainnya'];
+  const categoryCards = groups.map(group => {
+    const matching = products.filter(p => categoryGroup(p.cat) === group);
     const imageProduct = matching.find(p => p.image) || matching.find(p => [...p.variants.values()].some(v => v.image));
     const image = imageProduct?.image || (imageProduct ? [...imageProduct.variants.values()].find(v => v.image)?.image : '') || '';
-    const icon = group === 'Tas' ? '▱' : group === 'Footwear' ? '◒' : group === 'Apparel' ? '◫' : '✦';
-    return {group, matchingCats, matching, image, icon};
-  }).filter(item => item.matchingCats.length);
+    const icon = group === 'Tas' ? '▱' : group === 'Footwear' ? '◒' : group === 'Apparel' ? '◫' : group === 'Aksesori' ? '✦' : '＋';
+    return {label:group, group, matching, image, icon, kind:'group'};
+  }).filter(item => item.matching.length);
 
-  container.innerHTML = groupItems.length ? groupItems.map(item => `
-    <div class="home-category-card" data-home-category-group="${esc(item.group)}">
-      <button type="button" class="home-category-image" data-home-category-all="${esc(item.group)}" aria-label="Lihat semua kategori ${esc(item.group)}">
+  const details = [...new Set(products.map(p => String(p.detail || '').trim()).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b, 'id'));
+  const detailCards = details.map(detail => {
+    const matching = products.filter(p => String(p.detail || '').trim() === detail);
+    const imageProduct = matching.find(p => p.image) || matching.find(p => [...p.variants.values()].some(v => v.image));
+    const image = imageProduct?.image || (imageProduct ? [...imageProduct.variants.values()].find(v => v.image)?.image : '') || '';
+    const parentGroup = categoryGroup(matching[0]?.cat || '');
+    const icon = parentGroup === 'Tas' ? '▱' : parentGroup === 'Footwear' ? '◒' : parentGroup === 'Apparel' ? '◫' : '✦';
+    return {label:detail, group:parentGroup, matching, image, icon, kind:'detail'};
+  });
+
+  const allCards = [...categoryCards, ...detailCards];
+  container.innerHTML = allCards.length ? allCards.map(item => `
+    <button type="button" class="home-category-card" data-home-category-kind="${item.kind}" data-home-category-group="${esc(item.group)}" data-home-category-detail="${item.kind === 'detail' ? esc(item.label) : ''}" aria-label="Lihat produk ${esc(item.label)}">
+      <span class="home-category-image">
         ${item.image
-          ? `<img src="${esc(item.image)}" alt="${esc(item.group)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span class="home-category-placeholder" hidden>${item.icon}</span>`
+          ? `<img src="${esc(item.image)}" alt="${esc(item.label)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span class="home-category-placeholder" hidden>${item.icon}</span>`
           : `<span class="home-category-placeholder">${item.icon}</span>`}
-      </button>
-      <span class="home-category-copy">
-        <strong>${esc(item.group)}</strong>
-        <small>${item.matching.length} produk · ${item.matchingCats.length} kategori detail</small>
-        <select class="home-category-select" data-home-category-select="${esc(item.group)}" aria-label="Pilih kategori detail ${esc(item.group)}">
-          <option value="">Semua ${esc(item.group)}</option>
-          ${item.matchingCats.map(cat => `<option value="${esc(cat)}">${esc(cat)}</option>`).join('')}
-        </select>
       </span>
-    </div>
+      <span class="home-category-copy">
+        <strong>${esc(item.label)}</strong>
+        <small>${item.matching.length} produk</small>
+        <span class="category-card-link">Lihat produk <span aria-hidden="true">↗</span></span>
+      </span>
+    </button>
   `).join('') : '<div class="home-category-loading">Kategori belum tersedia.</div>';
 
-  const openCategoryPage = (group, detailCategory = '') => {
+  const openCategoryPage = (group, detailCategory = '', isDetail = false) => {
     document.querySelector('.main')?.classList.remove('promo-page-mode');
     document.querySelector('.main')?.classList.add('category-page-mode');
     const toolbar = document.getElementById('promoPageToolbar');
@@ -1410,47 +1426,29 @@ function renderHomeCategories(cats) {
     const backButton = document.getElementById('backFromPromo');
     if (backButton) backButton.textContent = '← Kembali ke halaman utama';
     const heading = document.getElementById('catalogHeading');
-    if (heading) heading.textContent = detailCategory ? categoryDisplayName(detailCategory) : group;
+    if (heading) heading.textContent = isDetail ? detailCategory : group;
     const eyebrow = document.getElementById('catalogEyebrow');
-    if (eyebrow) eyebrow.textContent = 'JELAJAHI KATEGORI';
-    active = detailCategory || ('group:' + group);
-    category.value = detailCategory || 'Semua';
+    if (eyebrow) eyebrow.textContent = isDetail ? 'SUBKATEGORI PRODUK' : 'KATEGORI PRODUK';
+    active = isDetail ? 'detail:' + detailCategory : 'group:' + group;
+    category.value = 'Semua';
     if (subcategory) subcategory.value = 'Semua';
     size.value = 'Semua';
     search.value = '';
-    if (location.hash !== '#kategori-' + encodeURIComponent(detailCategory || group).toLowerCase()) {
-      history.pushState(null, '', '#kategori-' + encodeURIComponent(detailCategory || group).toLowerCase());
+    const hashValue = isDetail ? detailCategory : group;
+    if (location.hash !== '#kategori-' + encodeURIComponent(hashValue).toLowerCase()) {
+      history.pushState(null, '', '#kategori-' + encodeURIComponent(hashValue).toLowerCase());
     }
     render();
     document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
   };
 
-  container.querySelectorAll('[data-home-category-group]').forEach(card => {
-    card.addEventListener('click', event => {
-      if (event.target.closest('select')) return;
-      openCategoryPage(card.dataset.homeCategoryGroup);
-    });
-    card.setAttribute('role', 'link');
-    card.setAttribute('tabindex', '0');
-    card.addEventListener('keydown', event => {
-      if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
-      event.preventDefault();
-      openCategoryPage(card.dataset.homeCategoryGroup);
-    });
-  });
-  container.querySelectorAll('[data-home-category-select]').forEach(select => {
-    select.addEventListener('change', () => {
-      openCategoryPage(select.dataset.homeCategorySelect, select.value || '');
+  container.querySelectorAll('[data-home-category-kind]').forEach(card => {
+    card.addEventListener('click', () => {
+      const isDetail = card.dataset.homeCategoryKind === 'detail';
+      openCategoryPage(card.dataset.homeCategoryGroup, isDetail ? card.dataset.homeCategoryDetail : '', isDetail);
     });
   });
 }
-
-document.getElementById('showAllCategories')?.addEventListener('click', () => {
-  active = 'Semua';
-  category.value = 'Semua';
-  render();
-  document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
-});
 
 function updateSubcategoryOptions() {
   if (!subcategory) return;
@@ -1518,7 +1516,9 @@ function draw() {
         ? p.price > 0 && p.normal > p.price
         : active.startsWith('group:')
           ? categoryGroup(p.cat) === active.slice(6)
-          : active === 'Semua' || p.cat === active;
+          : active.startsWith('detail:')
+            ? String(p.detail || '').trim() === active.slice(7)
+            : active === 'Semua' || p.cat === active;
 
     const matchesCategory =
       category.value === 'Semua' ||
