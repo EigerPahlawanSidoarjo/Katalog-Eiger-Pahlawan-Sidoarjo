@@ -1144,34 +1144,15 @@ function num(value) {
    ========================================================= */
 
 function categoryName(value) {
-  const x = String(value || '').toUpperCase();
+  const x = String(value || '').trim().toUpperCase();
 
-  if (x.includes('BAG')) return 'Tas';
+  if (/APPAREL|CLOTHING|GARMENT|PAKAIAN|BAJU/.test(x)) return 'APPAREL';
+  if (/BAGS?|BACKPACK|RUCKSACK|SLING|WAISTBAG|DAYPACK|TAS/.test(x)) return 'BAGS';
+  if (/FOOTWEAR|SHOE|SANDAL|SEPATU/.test(x)) return 'FOOTWEAR';
+  if (/ACCESSOR|AKSESOR|HEADWEAR|CAP|TOPI|WALLET|DOMPET|BOTTLE|BOTOL|TUMBLER|BELT|IKAT PINGGANG|KACAMATA/.test(x)) return 'ACCESSORIES';
+  if (/EQUIPMENT|CAMPING|TENT|SLEEPING|COOKWARE|COOKING|TREKKING POLE|MATRAS|HAMMOCK|OUTDOOR GEAR|PERLENGKAPAN/.test(x)) return 'EQUIPMENT';
 
-  if (
-    x.includes('HEADWEAR') ||
-    x.includes('CAP') ||
-    x.includes('ACCESSOR')
-  ) {
-    return 'Aksesori';
-  }
-
-  if (
-    x.includes('FOOTWEAR') ||
-    x.includes('SHOE') ||
-    x.includes('SANDAL')
-  ) {
-    return 'Footwear';
-  }
-
-  if (
-    x.includes('APPAREL') ||
-    x.includes('CLOTHING')
-  ) {
-    return 'Apparel';
-  }
-
-  return value || 'Lainnya';
+  return 'EQUIPMENT';
 }
 
 
@@ -1362,48 +1343,31 @@ document.getElementById('backFromPromo')?.addEventListener('click', returnToHome
 if (location.hash === '#produk-promo') showDiscountProducts();
 
 function categoryDisplayName(cat) {
-  const value = String(cat || '').trim().toLowerCase();
-  if (/apparel|pakaian|baju|clothing|jaket|kaos|kemeja|celana/.test(value)) return 'Apparel';
-  if (/tas|bag|bags|backpack|rucksack/.test(value)) return 'Tas';
-  if (/sepatu|sandal|footwear|shoe/.test(value)) return 'Footwear';
-  if (/accessor|aksesor|topi|dompet|botol|tumbler|ikat pinggang|belt|kacamata/.test(value)) return 'Aksesori';
-  return cat;
+  return categoryGroup(cat);
 }
 
 function categoryGroup(cat) {
   const value = String(cat || '').trim().toLowerCase();
-  if (/apparel|pakaian|baju|clothing|jaket|kaos|kemeja|celana|shirt|pants|jacket/.test(value)) return 'Apparel';
-  if (/tas|bag|backpack|rucksack|sling|waistbag|daypack/.test(value)) return 'Tas';
-  if (/sepatu|sandal|footwear|shoe/.test(value)) return 'Footwear';
-  if (/accessor|aksesor|topi|dompet|botol|tumbler|ikat pinggang|belt|kacamata|wallet|cap/.test(value)) return 'Aksesori';
-  return 'Lainnya';
+  if (/apparel|pakaian|baju|clothing|garment|jaket|kaos|kemeja|celana|shirt|pants|jacket/.test(value)) return 'APPAREL';
+  if (/tas|bag|backpack|rucksack|sling|waistbag|daypack/.test(value)) return 'BAGS';
+  if (/sepatu|sandal|footwear|shoe/.test(value)) return 'FOOTWEAR';
+  if (/accessor|aksesor|headwear|topi|dompet|botol|tumbler|ikat pinggang|belt|kacamata|wallet|cap/.test(value)) return 'ACCESSORIES';
+  if (/equipment|camping|tent|sleeping|cookware|cooking|trekking pole|matras|hammock|outdoor gear|perlengkapan/.test(value)) return 'EQUIPMENT';
+  return 'EQUIPMENT';
 }
 
 function renderHomeCategories(cats) {
   const container = document.getElementById('homeCategoryGrid');
   if (!container) return;
 
-  const groups = ['Apparel','Tas','Footwear','Aksesori','Lainnya'];
-  const categoryCards = groups.map(group => {
+  const groups = ['APPAREL','BAGS','FOOTWEAR','ACCESSORIES','EQUIPMENT'];
+  const allCards = groups.map(group => {
     const matching = products.filter(p => categoryGroup(p.cat) === group);
     const imageProduct = matching.find(p => p.image) || matching.find(p => [...p.variants.values()].some(v => v.image));
     const image = imageProduct?.image || (imageProduct ? [...imageProduct.variants.values()].find(v => v.image)?.image : '') || '';
-    const icon = group === 'Tas' ? '▱' : group === 'Footwear' ? '◒' : group === 'Apparel' ? '◫' : group === 'Aksesori' ? '✦' : '＋';
+    const icon = group === 'BAGS' ? '▱' : group === 'FOOTWEAR' ? '◒' : group === 'APPAREL' ? '◫' : group === 'ACCESSORIES' ? '✦' : '＋';
     return {label:group, group, matching, image, icon, kind:'group'};
-  }).filter(item => item.matching.length);
-
-  const details = [...new Set(products.map(p => String(p.detail || '').trim()).filter(Boolean))]
-    .sort((a,b) => a.localeCompare(b, 'id'));
-  const detailCards = details.map(detail => {
-    const matching = products.filter(p => String(p.detail || '').trim() === detail);
-    const imageProduct = matching.find(p => p.image) || matching.find(p => [...p.variants.values()].some(v => v.image));
-    const image = imageProduct?.image || (imageProduct ? [...imageProduct.variants.values()].find(v => v.image)?.image : '') || '';
-    const parentGroup = categoryGroup(matching[0]?.cat || '');
-    const icon = parentGroup === 'Tas' ? '▱' : parentGroup === 'Footwear' ? '◒' : parentGroup === 'Apparel' ? '◫' : '✦';
-    return {label:detail, group:parentGroup, matching, image, icon, kind:'detail'};
   });
-
-  const allCards = [...categoryCards, ...detailCards];
   container.innerHTML = allCards.length ? allCards.map(item => `
     <button type="button" class="home-category-card" data-home-category-kind="${item.kind}" data-home-category-group="${esc(item.group)}" data-home-category-detail="${item.kind === 'detail' ? esc(item.label) : ''}" aria-label="Lihat produk ${esc(item.label)}">
       <span class="home-category-image">
@@ -1468,7 +1432,7 @@ function updateSubcategoryOptions() {
 }
 
 function setFilters() {
-  const cats = [...new Set(products.map(p => p.cat))].sort();
+  const cats = ['APPAREL','BAGS','FOOTWEAR','ACCESSORIES','EQUIPMENT'];
   renderHomeCategories(cats);
   renderHomePromoProducts();
 
