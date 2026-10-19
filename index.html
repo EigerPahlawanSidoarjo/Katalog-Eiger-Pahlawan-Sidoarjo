@@ -362,8 +362,11 @@ select.field option {padding:12px;background:#fff;color:#20231f;font-weight:600}
 .home-category-copy {display:flex;flex-direction:column;gap:8px;padding:12px}
 .home-category-copy strong {font-size:14px}
 .home-category-copy small {font-size:11px;color:var(--muted)}
-.home-category-card {cursor:default}
-.home-category-card:hover {transform:none}
+.home-category-card {cursor:pointer}
+.home-category-card:hover {transform:translateY(-3px);border-color:#f47721;box-shadow:0 9px 22px #3d25120f}
+.home-category-image {width:100%;border:0;padding:0;cursor:pointer}
+.home-category-copy {pointer-events:none}
+.home-category-select {pointer-events:auto}
 .home-category-select {width:100%;min-width:0;border:1px solid #e7d5c4;border-radius:9px;background:#fffaf5;color:#333;padding:9px 26px 9px 10px;font:700 11px inherit;cursor:pointer;outline-color:#f47721}
 .home-category-select:focus {border-color:#f47721;box-shadow:0 0 0 3px #f4772126}
 .home-category-select option {background:#fff;color:#20231f;padding:8px}
@@ -897,11 +900,11 @@ footer {
   </header>
 
   <main class="main">
-    <section class="home-discovery" aria-label="Promo dan kategori produk" hidden>
+    <section class="home-discovery" aria-label="Kategori produk">
       <div class="discovery-heading">
         <div>
           <div class="eyebrow">PILIHAN UNTUKMU</div>
-          <h2>Jelajahi Kategori</h2>
+          <h2>Kategori Produk</h2>
           <p>Ketuk gambar kategori untuk langsung melihat produknya.</p>
         </div>
         
@@ -1422,8 +1425,18 @@ function renderHomeCategories(cats) {
     document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
   };
 
-  container.querySelectorAll('[data-home-category-all]').forEach(button => {
-    button.addEventListener('click', () => openCategoryPage(button.dataset.homeCategoryAll));
+  container.querySelectorAll('[data-home-category-group]').forEach(card => {
+    card.addEventListener('click', event => {
+      if (event.target.closest('select')) return;
+      openCategoryPage(card.dataset.homeCategoryGroup);
+    });
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('keydown', event => {
+      if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
+      event.preventDefault();
+      openCategoryPage(card.dataset.homeCategoryGroup);
+    });
   });
   container.querySelectorAll('[data-home-category-select]').forEach(select => {
     select.addEventListener('change', () => {
