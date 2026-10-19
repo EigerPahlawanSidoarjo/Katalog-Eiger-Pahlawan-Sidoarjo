@@ -1243,6 +1243,52 @@ function csvToProducts(rows) {
    7. MEMBUAT FILTER KATEGORI DAN UKURAN
    ========================================================= */
 
+function renderHomePromoProducts() {
+  const container = document.getElementById('homePromoGrid');
+  if (!container) return;
+
+  const promoProducts = products.map(product => {
+    const discountAmount = product.normal > 0 && product.price > 0 && product.normal > product.price
+      ? product.normal - product.price : 0;
+    const percent = discountAmount > 0
+      ? Math.round(discountAmount / product.normal * 100) : 0;
+    return {product, discountAmount, percent};
+  }).filter(item => item.percent > 0)
+    .sort((a,b) => b.percent - a.percent || b.discountAmount - a.discountAmount)
+    .slice(0,4);
+
+  container.innerHTML = promoProducts.length ? promoProducts.map(({product:p,percent,discountAmount}) => {
+    const image = p.image || [...p.variants.values()].find(v => v.image)?.image || '';
+    return `<button type="button" class="home-promo-card" data-home-promo-index="${products.indexOf(p)}" aria-label="Lihat promo ${esc(p.name)}">
+      <span class="home-promo-badge">DISKON ${percent}%</span>
+      <span class="home-promo-card-image">${image
+        ? `<img src="${esc(image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span hidden class="home-category-placeholder">E.</span>`
+        : `<span class="home-category-placeholder">E.</span>`}</span>
+      <span class="home-promo-card-copy">
+        <strong>${esc(p.name)}</strong>
+        <span class="home-promo-card-price"><s>${fmt(p.normal)}</s>${fmt(p.price)}</span>
+        <small>Hemat ${fmt(discountAmount)} · Lihat detail ↗</small>
+      </span>
+    </button>`;
+  }).join('') : '<div class="home-category-loading">Belum ada produk promo yang terdeteksi dari harga normal dan harga promo.</div>';
+
+  container.querySelectorAll('[data-home-promo-index]').forEach(button => {
+    button.addEventListener('click', () => openProductModal(products[Number(button.dataset.homePromoIndex)]));
+  });
+}
+
+function showDiscountProducts() {
+  active = 'Diskon';
+  category.value = 'Semua';
+  size.value = 'Semua';
+  search.value = '';
+  render();
+  document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('seePromoProducts')?.addEventListener('click', showDiscountProducts);
+document.getElementById('allPromoProducts')?.addEventListener('click', showDiscountProducts);
+
 function categoryDisplayName(cat) {
   const value = String(cat || '').trim().toLowerCase();
   if (/apparel|pakaian|baju|clothing/.test(value)) return 'Apparel';
