@@ -1543,7 +1543,7 @@ function openProductModal(product) {
   const photoSlides = [...colorImages.entries()].flatMap(([color, images]) => images.map(src => ({color, src})));
   let activeSlide = 0;
   let selectedColor = colors[0] || '';
-  let selectedSize = (variants.find(v => v.color === selectedColor) || variants[0] || {}).size || '';
+  let selectedSize = '';
   let hasUserChosenVariant = false;
 
   const photoGalleryHTML = photoSlides.length ? `
@@ -1572,23 +1572,9 @@ function openProductModal(product) {
         <div class="variant-select-heading">PILIH UKURAN</div>
         <div class="variant-choice-row" id="sizeChoices"></div>
       </div>
-      <div class="selected-stock" id="selectedStock" aria-live="polite"></div>
+      <div class="selected-stock" id="selectedStock" aria-live="polite" hidden></div>
     </div>
     <p class="price-note">Pilih warna dan ukuran untuk melihat ketersediaan stok. Data stok diperbarui setiap hari.</p>
-    <div style="overflow-x:auto">
-      <table class="variant-table">
-        <thead><tr><th>Warna</th><th>Ukuran</th><th>Ketersediaan</th></tr></thead>
-        <tbody>
-          ${variants.map(v => `
-            <tr>
-              <td><button type="button" class="color-pick" data-table-color="${esc(v.color)}">${esc(v.color)}</button></td>
-              <td><button type="button" class="color-pick" data-table-size="${esc(v.size)}" data-table-size-color="${esc(v.color)}">${esc(v.size)}</button></td>
-              <td class="${v.qty > 0 ? 'stock-ok' : 'stock-empty'}">${v.qty > 0 ? 'Tersedia · ' + v.qty + ' pcs' : 'Stok habis'}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
     <p class="price-note" style="margin-top:14px">Stok dapat berubah. Konfirmasi kembali ke tim Eiger Pahlawan Sidoarjo.</p>
   `;
 
@@ -1615,18 +1601,17 @@ function openProductModal(product) {
     const stockWrap = document.getElementById('selectedStock');
     const colorVariants = variants.filter(v => v.color === selectedColor);
     const sizes = [...new Set(colorVariants.map(v => v.size))];
-    if (!sizes.includes(selectedSize)) selectedSize = sizes[0] || '';
+    if (!sizes.includes(selectedSize)) selectedSize = '';
     if (sizeWrap) sizeWrap.innerHTML = sizes.map(size => {
       const variant = colorVariants.find(v => v.size === size);
       return `<button type="button" class="variant-choice ${size===selectedSize?'active':''} ${variant && variant.qty<=0?'unavailable':''}" data-select-size="${esc(size)}">${esc(size)}</button>`;
     }).join('');
     const chosen = colorVariants.find(v => v.size === selectedSize);
     if (stockWrap) {
-      stockWrap.innerHTML = !hasUserChosenVariant
-        ? 'Pilih warna dan ukuran untuk melihat ketersediaan stok.'
-        : chosen
-          ? `<span>Stok ukuran <strong>${esc(chosen.size)}</strong> warna <strong>${esc(chosen.color)}</strong>:</span><strong class="${chosen.qty>0?'stock-ok':'stock-empty'}">${chosen.qty>0?'Tersedia · '+chosen.qty+' pcs':'Stok habis'}</strong>`
-          : 'Stok untuk kombinasi ini tidak tersedia.';
+      stockWrap.hidden = !hasUserChosenVariant || !chosen;
+      stockWrap.innerHTML = hasUserChosenVariant && chosen
+        ? `<span>Stok ukuran <strong>${esc(chosen.size)}</strong> warna <strong>${esc(chosen.color)}</strong>:</span><strong class="${chosen.qty>0?'stock-ok':'stock-empty'}">${chosen.qty>0?'Tersedia · '+chosen.qty+' pcs':'Stok habis'}</strong>`
+        : '';
     }
     document.querySelectorAll('[data-select-size]').forEach(button => button.classList.toggle('active',button.dataset.selectSize===selectedSize));
   };
@@ -1648,14 +1633,6 @@ function openProductModal(product) {
     selectedSize=button.dataset.selectSize;
     renderSizeChoices();
   });
-  document.querySelectorAll('[data-table-color]').forEach(button=>button.addEventListener('click',()=>selectColor(button.dataset.tableColor)));
-  document.querySelectorAll('[data-table-size]').forEach(button=>button.addEventListener('click',()=>{
-    selectColor(button.dataset.tableSizeColor);
-    hasUserChosenVariant = true;
-    selectedSize=button.dataset.tableSize;
-    renderSizeChoices();
-    document.getElementById('selectedStock')?.scrollIntoView({block:'nearest',behavior:'smooth'});
-  }));
   document.getElementById('galleryPrev')?.addEventListener('click',()=>showSlide(activeSlide-1));
   document.getElementById('galleryNext')?.addEventListener('click',()=>showSlide(activeSlide+1));
   renderSizeChoices();
