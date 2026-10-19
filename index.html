@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="id">
 <head>
@@ -45,14 +44,23 @@ button,input,select {
   letter-spacing:.04em;
 }
 
-          <strong>PROMO HARI INI</strong>
-          <small>Update promo terbaru di Eiger Pahlawan Sidoarjo</small>
-        </div>
-        <img id="promoImage" alt="Promo Eiger Pahlawan Sidoarjo" hidden>
-      </div>
-    </div>
-.top-brand strong {
+
+<!-- Logo Eiger dari URL gambar -->
+<img
+  class="eiger-logo-img"
+  src="https://d1yutv2xslo29o.cloudfront.net/product/variant/media/web/910001150_GREEN_1_158f.webp"
+  alt="Logo Eiger"
+>
+
   
+<img
+  class="hero-logo-img"
+  src="https://d1yutv2xslo29o.cloudfront.net/product/variant/media/web/910001150_GREEN_1_158f.webp"
+  alt="Logo Eiger"
+>
+}
+
+.top-brand strong {
   color:#ff9b4d;
 }
 
@@ -144,6 +152,7 @@ button,input,select {
     font-size: 8px;
     max-width: 85px;
   }
+}
 }
 
 .brand {
@@ -240,96 +249,6 @@ button,input,select {
   color:#ffffff16;
 }
 
-.home-discovery {
-  padding:34px 20px 10px;
-  background:linear-gradient(180deg,#fff8f2 0%,#fff 100%);
-  border-bottom:1px solid #f2e6dc;
-}
-.home-discovery-inner { max-width:1180px; margin:0 auto; }
-.home-section-heading,.home-category-heading,.home-deal-heading {
-  display:flex; align-items:end; justify-content:space-between; gap:18px;
-}
-.home-section-heading { margin-bottom:22px; }
-.home-kicker { display:block; color:#e76612; font-size:10px; font-weight:900; letter-spacing:.16em; }
-.home-section-heading h2 { margin:7px 0 5px; font-size:clamp(24px,3vw,34px); letter-spacing:-.04em; }
-.home-section-heading p { margin:0; color:#6f716d; font-size:13px; line-height:1.6; }
-.home-heading-mark { color:#f47721; font-size:clamp(20px,3vw,34px); font-weight:1000; letter-spacing:-.06em; }
-.home-promo-highlight {
-  display:grid; grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);
-  min-height:215px; position:relative; overflow:hidden; border-radius:22px;
-  background:linear-gradient(112deg,#242622 0%,#34352f 55%,#f47721 55%,#ff9b47 100%);
-  box-shadow:0 14px 32px #7d3a101a; color:white; margin-bottom:34px;
-}
-.home-promo-copy { padding:27px clamp(20px,4vw,42px); position:relative; z-index:2; }
-.home-promo-tag { display:inline-flex; align-items:center; gap:8px; font-size:10px; letter-spacing:.15em; font-weight:900; color:#ffb777; }
-.home-pulse { width:7px; height:7px; border-radius:50%; background:#ff8b2d; box-shadow:0 0 0 4px #f477212a; }
-.home-promo-copy h3 { max-width:430px; font-size:clamp(23px,3.4vw,37px); line-height:1.08; letter-spacing:-.04em; margin:13px 0 9px; }
-.home-promo-copy p { max-width:430px; margin:0 0 18px; color:#e6e6df; font-size:12px; line-height:1.7; }
-.home-promo-cta { display:inline-flex; align-items:center; gap:18px; padding:12px 16px; border:0; border-radius:10px; background:#f47721; color:white; font-weight:850; font-size:12px; cursor:pointer; transition:transform .18s,background .18s; }
-.home-promo-cta:hover { transform:translateY(-2px); background:#e76612; }
-.home-promo-cta span { font-size:17px; }
-.home-promo-art { position:relative; min-height:215px; overflow:hidden; }
-.promo-art-circle { position:absolute; width:250px; height:250px; border:1px solid #ffffff60; border-radius:50%; top:-25px; left:10%; box-shadow:0 0 0 22px #ffffff0c,0 0 0 48px #ffffff0b; }
-.promo-art-label { position:absolute; top:36px; left:18%; z-index:2; color:#fff; font-size:13px; line-height:1.05; letter-spacing:.2em; transform:rotate(-8deg); }
-.promo-art-label strong { font-size:clamp(30px,4vw,50px); letter-spacing:-.05em; }
-.promo-art-percent { position:absolute; right:10%; bottom:-35px; color:#ffffff25; font-size:clamp(170px,22vw,270px); line-height:1; font-weight:1000; letter-spacing:-.1em; }
-.promo-art-stripe { position:absolute; height:14px; width:130%; left:-10%; bottom:30px; background:#20231f; transform:rotate(-18deg); opacity:.75; }
-.home-category-heading,.home-deal-heading { margin:0 0 16px; }
-.home-category-heading h3,.home-deal-heading h3 { margin:6px 0 0; font-size:clamp(18px,2vw,24px); letter-spacing:-.03em; }
-.home-view-all { border:0; background:transparent; color:#c9550a; font-size:12px; font-weight:850; cursor:pointer; white-space:nowrap; padding:8px 0; }
-.home-view-all:hover { color:#8c3600; }
-.home-view-all span { font-size:17px; margin-left:5px; }
-.home-category-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:34px; }
-.home-category-card { position:relative; display:flex; align-items:end; min-height:185px; overflow:hidden; border:1px solid #eee1d6; border-radius:17px; padding:0; text-align:left; background:#f2eee9; cursor:pointer; isolation:isolate; transition:transform .2s,box-shadow .2s,border-color .2s; }
-.home-category-card:hover { transform:translateY(-4px); border-color:#f47721; box-shadow:0 14px 28px #7d3a1018; }
-.home-category-card img { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .3s; }
-.home-category-card:hover img { transform:scale(1.06); }
-.home-category-card:after { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(180deg,#1110 25%,#151613d9 100%); }
-.home-category-copy { width:100%; padding:16px 15px; color:#fff; }
-.home-category-copy strong { display:block; font-size:17px; font-weight:900; }
-.home-category-copy span { display:block; margin-top:4px; color:#ffffffd9; font-size:11px; }
-.home-category-arrow { position:absolute; right:13px; top:13px; display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:#ffffffeb; color:#e76612; font-size:18px; font-weight:900; }
-.home-category-loading { grid-column:1/-1; padding:25px; border:1px dashed #ead7c7; border-radius:15px; color:#777; font-size:12px; text-align:center; }
-.home-deal-heading { margin-top:4px; }
-.home-deal-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; padding-bottom:22px; }
-.home-deal-card { display:flex; align-items:center; gap:12px; min-width:0; padding:11px; border:1px solid #eee3da; border-radius:15px; background:#fff; cursor:pointer; text-align:left; transition:transform .18s,border-color .18s,box-shadow .18s; }
-.home-deal-card:hover { transform:translateY(-2px); border-color:#f47721; box-shadow:0 9px 22px #7d3a1010; }
-.home-deal-image { flex:0 0 78px; width:78px; height:86px; display:grid; place-items:center; border-radius:11px; background:#faf6f1; overflow:hidden; }
-.home-deal-image img { width:100%; height:100%; object-fit:contain; }
-.home-deal-info { min-width:0; }
-.home-deal-badge { display:inline-block; margin-bottom:6px; padding:4px 7px; border-radius:5px; background:#fff0e5; color:#d95600; font-size:9px; font-weight:950; }
-.home-deal-info strong { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:#242622; font-size:12px; line-height:1.4; }
-.home-deal-price { margin-top:7px; color:#d95600; font-size:14px; font-weight:950; }
-.home-deal-old { display:block; margin-top:3px; color:#888; font-size:10px; text-decoration:line-through; }
-@media(max-width:800px) {
-  .home-category-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .home-deal-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .home-category-card { min-height:165px; }
-  .home-promo-highlight { grid-template-columns:minmax(0,1.2fr) minmax(140px,.8fr); }
-  .home-promo-copy { padding:23px 20px; }
-}
-@media(max-width:520px) {
-  .home-discovery { padding:27px 14px 6px; }
-  .home-section-heading { align-items:start; }
-  .home-heading-mark { display:none; }
-  .home-promo-highlight { grid-template-columns:minmax(0,1fr) 100px; min-height:235px; }
-  .home-promo-copy { padding:22px 16px; }
-  .home-promo-copy h3 { font-size:24px; }
-  .home-promo-copy p { font-size:11px; }
-  .home-promo-art { min-height:235px; }
-  .promo-art-circle { width:180px; height:180px; left:-25px; top:25px; }
-  .promo-art-label { left:5px; top:60px; font-size:10px; }
-  .promo-art-label strong { font-size:27px; }
-  .promo-art-percent { right:-35px; bottom:0; font-size:150px; }
-  .home-category-grid { gap:10px; }
-  .home-category-card { min-height:150px; border-radius:14px; }
-  .home-category-copy { padding:12px; }
-  .home-category-copy strong { font-size:15px; }
-  .home-deal-grid { grid-template-columns:1fr; gap:9px; }
-  .home-deal-image { flex-basis:72px; width:72px; height:76px; }
-  .home-category-heading,.home-deal-heading { align-items:start; }
-  .home-view-all { font-size:10px; }
-}
 .main {
   max-width:1180px;
   margin:auto;
@@ -365,49 +284,29 @@ button,input,select {
 
 .tools {
   display:grid;
-  grid-template-columns:minmax(220px,1.4fr) repeat(4,minmax(135px,1fr));
-  gap:12px;
-  margin:24px 0 20px;
-  padding:16px;
-  border:1px solid #f0d4bf;
-  border-radius:18px;
-  background:linear-gradient(135deg,#fff 0%,#fff7f0 100%);
-  box-shadow:0 8px 24px #7d3a100c;
+  grid-template-columns:minmax(220px,1fr) 210px 170px 180px;
+  gap:10px;
+  margin:22px 0 20px;
 }
 
 .field {
   width:100%;
   min-width:0;
-  min-height:48px;
-  border:1px solid #e8d9cc;
-  border-radius:12px;
-  background-color:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:white;
   color:var(--ink);
-  padding:13px 40px 13px 14px;
+  padding:13px 14px;
   outline:none;
-  box-shadow:0 2px 5px #20231f06;
-  transition:border-color .18s,box-shadow .18s,transform .18s;
 }
-select.field {
-  cursor:pointer;
-  appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f47721' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 14px center;
-  font-size:13px;
-  font-weight:700;
-}
-.field:hover { border-color:#f5b17f; }
-
 
 .field:focus {
   border-color:var(--orange);
-  box-shadow:0 0 0 4px #f4772120;
-  transform:translateY(-1px);
+  box-shadow:0 0 0 3px #f477211c;
 }
 
 .categories {
-  display:none;
+  display:flex;
   gap:8px;
   overflow-x:auto;
   padding:2px 0 14px;
@@ -441,22 +340,17 @@ select.field {
 .card {
   background:white;
   border:1px solid #e8e5df;
-  border-radius:18px;
+  border-radius:16px;
   overflow:hidden;
   min-width:0;
   box-shadow:0 5px 18px #22210d08;
-  transition:transform .2s,border-color .2s,box-shadow .2s;
-  cursor:pointer;
+  transition:transform .18s,box-shadow .18s;
 }
-.card:focus-visible { outline:3px solid #f47721; outline-offset:3px; }
 
 .card:hover {
-  transform:translateY(-4px);
-  border-color:#f4b17f;
-  box-shadow:0 16px 32px #7d3a1017;
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px #22210d12;
 }
-.card:hover .visual img { transform:scale(1.035); }
-.visual img { transition:transform .25s; }
 
 .visual {
   height:190px;
@@ -473,50 +367,6 @@ select.field {
   height:100%;
   object-fit:contain;
   padding:10px;
-}
-.gallery-arrow {
-  position:absolute;
-  z-index:3;
-  top:50%;
-  transform:translateY(-50%);
-  width:30px;
-  height:30px;
-  border:0;
-  border-radius:50%;
-  background:#20231fce;
-  color:#fff;
-  font-size:23px;
-  line-height:1;
-  cursor:pointer;
-}
-.gallery-arrow:hover { background:var(--orange); }
-.gallery-arrow.prev { left:8px; }
-.gallery-arrow.next { right:8px; }
-.gallery-count {
-  position:absolute;
-  right:9px;
-  bottom:9px;
-  border-radius:99px;
-  padding:4px 7px;
-  background:#20231fce;
-  color:white;
-  font-size:10px;
-  font-weight:800;
-}
-.gallery-color {
-  position:absolute;
-  left:9px;
-  bottom:9px;
-  max-width:65%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  border-radius:99px;
-  padding:5px 8px;
-  background:#ffffffed;
-  color:#20231f;
-  font-size:10px;
-  font-weight:800;
 }
 
 .tag {
@@ -656,134 +506,13 @@ footer {
 .modal-panel {
   background:white;
   color:var(--ink);
-  border:1px solid #f0d7c4;
-  border-radius:22px;
-  width:min(900px,100%);
-  max-height:92vh;
+  border:1px solid var(--line);
+  border-radius:18px;
+  width:min(680px,100%);
+  max-height:88vh;
   overflow:auto;
   box-shadow:0 24px 80px #0005;
-  animation:modalRise .22s ease-out;
 }
-@keyframes modalRise {
-  from { opacity:0; transform:translateY(12px) scale(.985); }
-  to { opacity:1; transform:translateY(0) scale(1); }
-}
-.modal-product-layout {
-  display:grid;
-  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
-  gap:24px;
-}
-.modal-gallery {
-  min-width:0;
-}
-.modal-photo-stage {
-  height:360px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid #f1e5db;
-  border-radius:18px;
-  background:linear-gradient(145deg,#fffaf6,#fff);
-  overflow:hidden;
-}
-.modal-photo-stage img {
-  width:100%;
-  height:100%;
-  padding:16px;
-  object-fit:contain;
-}
-.modal-photo-arrow {
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:38px;
-  height:38px;
-  border:1px solid #ffffffc9;
-  border-radius:50%;
-  background:#20231fdc;
-  color:#fff;
-  font-size:25px;
-  line-height:1;
-  cursor:pointer;
-}
-.modal-photo-arrow:hover { background:var(--orange); }
-.modal-photo-arrow.prev { left:12px; }
-.modal-photo-arrow.next { right:12px; }
-.modal-photo-count {
-  position:absolute;
-  right:12px;
-  bottom:12px;
-  padding:6px 10px;
-  border-radius:99px;
-  background:#20231fdc;
-  color:#fff;
-  font-size:11px;
-  font-weight:800;
-}
-.modal-thumbs {
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:12px 2px 4px;
-}
-.modal-thumb {
-  width:64px;
-  height:64px;
-  flex:0 0 64px;
-  border:2px solid #e8e5df;
-  border-radius:12px;
-  background:#fff;
-  overflow:hidden;
-  padding:3px;
-  cursor:pointer;
-}
-.modal-thumb.active { border-color:var(--orange); box-shadow:0 0 0 2px #f477211b; }
-.modal-thumb img { width:100%; height:100%; object-fit:contain; }
-.modal-color-label { font-size:12px; color:var(--muted); margin:10px 0 0; }
-.modal-info { min-width:0; }
-.modal-price { font-size:25px; font-weight:900; margin:8px 0 4px; }
-.modal-colors,.modal-sizes { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px; }
-.modal-color-btn,.modal-size-btn {
-  border:1px solid #e5ded7;
-  border-radius:10px;
-  background:#fff;
-  color:var(--ink);
-  padding:9px 12px;
-  font-size:12px;
-  font-weight:750;
-  cursor:pointer;
-}
-.modal-color-btn.active,.modal-size-btn.active {
-  border-color:var(--orange);
-  background:#fff1e6;
-  color:#b94a00;
-  box-shadow:0 0 0 2px #f4772117;
-}
-.modal-size-btn.sold-out { border-style:dashed; color:#b33c2c; background:#fff6f4; }
-.modal-stock-panel {
-  padding:14px;
-  border:1px solid #f0d7c4;
-  border-radius:14px;
-  background:#fff8f2;
-  margin:12px 0 16px;
-}
-.modal-stock-number { font-size:20px; font-weight:900; margin-top:4px; }
-.modal-stock-number.in { color:#16834a; }
-.modal-stock-number.out { color:#d64b35; }
-.modal-wa {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  background:var(--orange);
-  color:white;
-  font-weight:850;
-  text-decoration:none;
-}
-.modal-wa:hover { background:#d95f0b; }
 
 .modal-head {
   display:flex;
@@ -850,17 +579,12 @@ footer {
 
 @media(max-width:1000px) {
   .tools {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    padding:12px;
+    grid-template-columns:1fr 1fr;
   }
-
-  .tools input { grid-column:1/-1; }
 
   .grid {
     grid-template-columns:repeat(3,minmax(0,1fr));
   }
-  .modal-product-layout { grid-template-columns:1fr; gap:18px; }
-  .modal-photo-stage { height:min(68vw,360px); }
 }
 
 @media(max-width:620px) {
@@ -890,7 +614,7 @@ footer {
     gap:8px;
   }
 
-  .hero-promo img {
+  .hero-promo img {https://drive.google.com/drive/folders/1jdkR-QebqSbCTimsvx6efenDs27eYiZv
     width:42%;
     height:100px;
   }
@@ -957,9 +681,6 @@ footer {
     padding-left:14px;
     padding-right:14px;
   }
-  .modal-photo-stage { height:280px; }
-  .modal-product-layout { gap:14px; }
-  .modal-price { font-size:22px; }
 
   .variant-table th,
   .variant-table td {
@@ -1012,60 +733,16 @@ footer {
 
       <div class="hero-promo" id="heroPromo">
         <div class="hero-promo-copy">
-          
+          <span>PROMO PILIHAN</span>
+          <strong>Temukan promo spesial EIGER</strong>
+          <small>Update promo terbaru di Eiger Pahlawan Sidoarjo</small>
+        </div>
+        <img id="promoImage" alt="Promo Eiger Pahlawan Sidoarjo" hidden>
+      </div>
+    </div>
 
     <div class="hero-mark" aria-hidden="true">E.</div>
   </header>
-
-  <section class="home-discovery" aria-label="Promo dan kategori produk">
-    <div class="home-discovery-inner">
-      <div class="home-section-heading">
-        <div>
-          <span class="home-kicker">EIGER PAHLAWAN SIDOARJO</span>
-          <h2>Temukan pilihan terbaikmu</h2>
-          <p>Jelajahi kategori favorit dan temukan produk promo pilihan.</p>
-        </div>
-        <span class="home-heading-mark">GEAR UP.</span>
-      </div>
-
-      <div class="home-promo-highlight">
-        <div class="home-promo-copy">
-          <span class="home-promo-tag"><span class="home-pulse"></span> PROMO PILIHAN</span>
-          <h3>Waktunya upgrade perlengkapanmu!</h3>
-          <p>Lihat produk dengan harga promo yang tersedia di katalog Eiger Pahlawan Sidoarjo.</p>
-          <button type="button" class="home-promo-cta" id="homePromoButton">Lihat produk promo <span>↗</span></button>
-        </div>
-        <div class="home-promo-art" aria-hidden="true">
-          <div class="promo-art-circle"></div>
-          <div class="promo-art-label">SPECIAL<br><strong>DEALS</strong></div>
-          <div class="promo-art-percent">%</div>
-          <div class="promo-art-stripe"></div>
-        </div>
-      </div>
-
-      <div class="home-category-heading">
-        <div>
-          <span class="home-kicker">PILIH SESUAI KEBUTUHAN</span>
-          <h3>Belanja berdasarkan kategori</h3>
-        </div>
-        <button type="button" class="home-view-all" id="homeViewAll">Lihat semua produk <span>→</span></button>
-      </div>
-      <div class="home-category-grid" id="homeCategoryGrid">
-        <div class="home-category-loading">Menyiapkan kategori produk...</div>
-      </div>
-
-      <div class="home-deal-heading">
-        <div>
-          <span class="home-kicker">DEAL PILIHAN</span>
-          <h3>Produk promo untuk kamu</h3>
-        </div>
-        <button type="button" class="home-view-all" id="homeViewDeals">Lihat semua promo <span>→</span></button>
-      </div>
-      <div class="home-deal-grid" id="homeDealGrid">
-        <div class="home-category-loading">Memuat produk promo...</div>
-      </div>
-    </div>
-  </section>
 
   <main class="main">
 
@@ -1152,7 +829,7 @@ footer {
    ========================================================= */
 
 // Masukkan URL gambar promo langsung jika tersedia.
-const PROMO_IMAGE_URL = 'https://drive.google.com/uc?export=view&id=1phThdJqV5wrGDwkKaCUY5HEDGWk6RzAO'; // Gambar di dalam banner PROMO HARI INI.
+const PROMO_IMAGE_URL = 'https://drive.google.com/drive/folders/1jdkR-QebqSbCTimsvx6efenDs27eYiZv';
 
 // Masukkan nomor WhatsApp toko.
 // Format internasional tanpa tanda +, spasi, atau tanda hubung.
@@ -1162,12 +839,11 @@ const WHATSAPP_NUMBER = '628112184327';
 // URL CSV Google Sheets yang dipublikasikan.
 
 
-
-
 const CSV_URLS = [
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?gid=1076500592&single=true&output=csv',
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCSr2YTeykLQhmY8-z0d6VxGcXjIZSvCVAA-BReoCIdmZLZeAaaNa5V8w3pYfR09EHGrAQLFJ_7XYg/pub?output=csv&gid=1076500592'
 ];
+
 /* =========================================================
    2. ELEMEN DAN VARIABEL
    ========================================================= */
@@ -1257,32 +933,15 @@ function parseCSV(text) {
     rows.push(row);
   }
 
-  // Cari baris header meski CSV memiliki baris judul di atasnya.
-  const normalizeHeader = value => {
-    let header = String(value || '').trim();
-    if (header.charCodeAt(0) === 65279) header = header.slice(1);
-    return header.split(' ').filter(Boolean).join(' ').toUpperCase();
-  };
-
-  const headerIndex = rows.findIndex((row, index) =>
-    index < 15 &&
-    row.some(cell => normalizeHeader(cell) === 'KODE PRODUK') &&
-    row.some(cell => normalizeHeader(cell) === 'NAMA PRODUK')
+  const headers = (rows.shift() || []).map(h =>
+    h.replace(/^\uFEFF/, '').trim().toUpperCase()
   );
 
-  if (headerIndex < 0) {
-    throw new Error('Baris header KODE PRODUK dan NAMA PRODUK tidak ditemukan pada CSV.');
-  }
-
-  const headers = rows[headerIndex].map(normalizeHeader);
-
-  return rows.slice(headerIndex + 1)
-    .filter(r => r.some(value => String(value || '').trim()))
-    .map(r =>
-      Object.fromEntries(
-        headers.map((h, i) => [h, (r[i] || '').trim()])
-      )
-    );
+  return rows.map(r =>
+    Object.fromEntries(
+      headers.map((h, i) => [h, (r[i] || '').trim()])
+    )
+  );
 }
 
 function num(value) {
@@ -1327,213 +986,6 @@ function categoryName(value) {
 }
 
 
-const selectedSlides = new Map();
-const selectedSizes = new Map();
-
-function csvToProductsLegacy(rows) {
-  const groups = new Map();
-
-  rows.forEach(r => {
-    const sku = r["KODE PRODUK"] || "";
-    const name = r["NAMA PRODUK"] || "";
-    if (!sku && !name) return;
-
-    const color = r["WARNA"] || "Tidak diketahui";
-    const size = r["UKURAN"] || "NOS";
-    const image = (r["FOTO PRODUK"] || "").trim();
-    const normal = num(r["HARGA NORMAL"]);
-    const promo = num(r["HARGA PROMO"]);
-    const discount = num(r["DISCOUNT"]);
-    const qty = num(r["AVAILABLE QTY"]);
-    const category = categoryName(r["KATEGORI"]);
-    const detail = (r["KATEGORI DETAIL"] || "").trim();
-
-    const key = `${sku}|${name}|${category}`;
-
-    if (!groups.has(key)) {
-      groups.set(key, {
-        sku, name, category, detail,
-        images: [],
-        variants: new Map(),
-        normal, price: promo || normal,
-        discount
-      });
-    }
-
-    const p = groups.get(key);
-
-    if (!p.detail && detail) p.detail = detail;
-
-    if (image && !p.images.some(img => img.url === image)) {
-      p.images.push({ url: image, color });
-    }
-
-    const variantKey =
-      `${color}|${size}|${normal}|${promo}|${discount}`;
-
-    if (!p.variants.has(variantKey)) {
-      p.variants.set(variantKey, {
-        color, size, qty, normal, promo, discount
-      });
-    } else {
-      p.variants.get(variantKey).qty += qty;
-    }
-  });
-
-  return [...groups.values()].map(p => {
-    const variants = [...p.variants.values()];
-
-    p.colors = [...new Set(variants.map(v => v.color))];
-    p.sizes = [...new Set(variants.map(v => v.size))];
-    p.stock = variants.reduce((sum, v) => sum + v.qty, 0);
-
-    p.normal = variants.find(v => v.normal > 0)?.normal || p.normal;
-    p.price = variants.find(v => v.promo > 0)?.promo || p.normal;
-    p.discount = variants.find(v => v.discount > 0)?.discount || p.discount;
-
-    return p;
-  });
-}
-
-function setupCategoryDropdown(products) {
-  const categorySelect = document.getElementById("category");
-  let detailSelect = document.getElementById("detailCategory");
-
-  if (!detailSelect) {
-    detailSelect = document.createElement("select");
-    detailSelect.id = "detailCategory";
-    detailSelect.className = "field";
-    detailSelect.setAttribute("aria-label", "Pilih subkategori");
-
-    categorySelect.insertAdjacentElement(
-      "afterend",
-      detailSelect
-    );
-  }
-
-  function updateDetails() {
-    const selectedCategory = categorySelect.value;
-
-    const details = [
-      ...new Set(
-        products
-          .filter(p =>
-            selectedCategory === "Semua" ||
-            p.cat === selectedCategory
-          )
-          .map(p => p.detail)
-          .filter(Boolean)
-      )
-    ].sort();
-
-    detailSelect.innerHTML =
-      '<option value="Semua">Semua subkategori</option>' +
-      details.map(detail =>
-        `<option value="${esc(detail)}">${esc(detail)}</option>`
-      ).join("");
-
-    detailSelect.value = "Semua";
-  }
-
-  categorySelect.addEventListener("change", () => {
-    updateDetails();
-    active = "Semua";
-    document.querySelectorAll(".cat").forEach(button => {
-      button.classList.toggle("active", button.dataset.cat === "Semua");
-    });
-    draw();
-  });
-
-  detailSelect.addEventListener("change", draw);
-  updateDetails();
-}
-
-function getStockForSize(product, size, color) {
-  return [...product.variants.values()]
-    .filter(v => v.size === size && v.color === color)
-    .reduce((total, v) => total + v.qty, 0);
-}
-
-function renderSizeButtons(product, productIndex, color) {
-  const selectedSize =
-    selectedSizes.get(productIndex) || product.sizes[0] || "";
-
-  return `
-    <div class="size-picks">
-      ${product.sizes.map(size => {
-        const stock = getStockForSize(product, size, color);
-        const active = size === selectedSize ? "active" : "";
-        const out = stock <= 0 ? "out" : "";
-
-        return `
-          <button
-            type="button"
-            class="size-pick ${active} ${out}"
-            data-size-pick="${esc(size)}"
-            data-product-index="${productIndex}"
-            ${stock <= 0 ? 'aria-label="Stok habis"' : ""}
-          >
-            ${esc(size)}
-          </button>
-        `;
-      }).join("")}
-    </div>
-    <div class="size-stock">
-      ${getStockForSize(
-        product,
-        selectedSize,
-        color
-      ) > 0
-        ? `Ukuran ${esc(selectedSize)} tersedia`
-        : `Ukuran ${esc(selectedSize)} habis`}
-    </div>
-  `;
-}
-
-function renderProductGallery(product, productIndex) {
-  const images = product.images || [];
-  const slide = selectedSlides.get(productIndex) || 0;
-  const current = images[slide];
-
-  if (!current) {
-    return '<div class="product-gallery">Foto belum tersedia</div>';
-  }
-
-  return `
-    <div class="product-gallery">
-      <img
-        src="${esc(current.url)}"
-        alt="${esc(product.name)} - ${esc(current.color)}"
-        loading="lazy"
-      />
-
-      ${images.length > 1 ? `
-        <button
-          class="gallery-arrow prev"
-          data-slide="prev"
-          data-product-index="${productIndex}"
-          type="button"
-        >‹</button>
-
-        <button
-          class="gallery-arrow next"
-          data-slide="next"
-          data-product-index="${productIndex}"
-          type="button"
-        >›</button>
-
-        <span class="gallery-count">
-          ${slide + 1}/${images.length}
-        </span>
-      ` : ""}
-
-      <span class="gallery-color">
-        ${esc(current.color)}
-      </span>
-    </div>
-  `;
-}
-
 /* =========================================================
    6. MENGUBAH DATA CSV MENJADI PRODUK
    ========================================================= */
@@ -1564,9 +1016,8 @@ function csvToProducts(rows) {
         sku,
         name,
         cat,
-        detail: (r['KATEGORI DETAIL'] || '').trim(),
+        detail: r['KATEGORI DETAIL'] || '',
         image,
-        images: [],
         price: promo > 0 ? promo : normal,
         normal,
         discount,
@@ -1578,12 +1029,6 @@ function csvToProducts(rows) {
 
     if (!product.image && image) {
       product.image = image;
-    }
-    if (image && !product.images.some(item => item.url === image)) {
-      product.images.push({ url: image, color });
-    }
-    if (!product.detail && r['KATEGORI DETAIL']) {
-      product.detail = String(r['KATEGORI DETAIL']).trim();
     }
 
     const variantKey = [
@@ -1696,11 +1141,6 @@ function draw() {
       category.value === 'Semua' ||
       p.cat === category.value;
 
-    const detailSelect = document.getElementById('detailCategory');
-    const matchesDetail =
-      !detailSelect || detailSelect.value === 'Semua' ||
-      p.detail === detailSelect.value;
-
     const matchesSize =
       size.value === 'Semua' ||
       p.sizes.includes(size.value);
@@ -1715,7 +1155,6 @@ function draw() {
     return (
       matchesActive &&
       matchesCategory &&
-      matchesDetail &&
       matchesSize &&
       matchesSearch
     );
@@ -1767,21 +1206,16 @@ function draw() {
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
       : `https://wa.me/?text=${encodeURIComponent(message)}`;
 
-    const cardImages = p.images && p.images.length ? p.images : (p.image ? [{url:p.image,color:p.colors[0] || ''}] : []);
-    const cardSlide = selectedSlides.get(products.indexOf(p)) || 0;
-    const cardImage = cardImages[cardSlide] || cardImages[0];
-    const imageHTML = cardImage
-      ? `<img src="${esc(cardImage.url)}"
-          alt="${esc(p.name)} - ${esc(cardImage.color || '')}"
+    const imageHTML = p.image
+      ? `<img src="${esc(p.image)}"
+          alt="${esc(p.name)}"
           loading="lazy"
           onerror="this.style.display='none';this.nextElementSibling.hidden=false">
-         <div hidden style="color:#697067;font-size:12px">Foto tidak tersedia</div>
-         ${cardImages.length > 1 ? `<button type="button" class="gallery-arrow prev" data-slide="prev" data-product-index="${products.indexOf(p)}" aria-label="Foto sebelumnya">‹</button><button type="button" class="gallery-arrow next" data-slide="next" data-product-index="${products.indexOf(p)}" aria-label="Foto berikutnya">›</button><span class="gallery-count">${cardSlide+1}/${cardImages.length}</span>` : ''}
-         ${cardImage.color ? `<span class="gallery-color">${esc(cardImage.color)}</span>` : ''}`
+         <div hidden style="color:#697067;font-size:12px">Foto tidak tersedia</div>`
       : `<div style="color:#697067;font-size:12px">Foto belum tersedia</div>`;
 
     return `
-      <article class="card" data-product-index="${products.indexOf(p)}" tabindex="0" role="button" aria-label="Lihat detail ${esc(p.name)}">
+      <article class="card">
         <div class="visual">
           ${hasPromo
             ? `<span class="tag">DISKON${p.discount ? ' ' + esc(p.discount) + '%' : ''}</span>`
@@ -1810,8 +1244,8 @@ function draw() {
           <button
             class="detail-btn"
             type="button"
-            data-open-product="${products.indexOf(p)}">
-            Lihat foto, warna, ukuran & stok ↗
+            data-product-index="${products.indexOf(p)}">
+            Lihat warna, ukuran & stok ↗
           </button>
 
           <a class="wa"
@@ -1831,89 +1265,53 @@ function draw() {
    9. DETAIL STOK WARNA DAN UKURAN
    ========================================================= */
 
-let modalProduct = null;
-let modalImageIndex = 0;
-let modalColor = '';
-let modalSize = '';
-
-function modalImages(product) {
-  return product.images && product.images.length
-    ? product.images
-    : (product.image ? [{url:product.image,color:product.colors?.[0] || 'Warna'}] : []);
-}
-
-function renderProductModal() {
-  if (!modalProduct) return;
-  const product = modalProduct;
-  const images = modalImages(product);
-  const colors = [...new Set([
-    ...product.colors,
-    ...images.map(image => image.color).filter(Boolean)
-  ])];
-  if (!modalColor || !colors.includes(modalColor)) modalColor = colors[0] || '';
-  const sizesForColor = [...new Set([...product.variants.values()]
-    .filter(v => !modalColor || v.color === modalColor)
-    .map(v => v.size))].sort((a,b) => a.localeCompare(b,undefined,{numeric:true}));
-  if (!sizesForColor.includes(modalSize)) modalSize = sizesForColor[0] || '';
-
-  const selectedVariant = [...product.variants.values()].find(v =>
-    v.color === modalColor && v.size === modalSize
-  );
-  const shownImages = images.filter(image => !image.color || image.color === modalColor);
-  const imageList = shownImages.length ? shownImages : images;
-  if (modalImageIndex >= imageList.length) modalImageIndex = 0;
-  const finalImage = imageList[modalImageIndex] || imageList[0];
-  const hasPromo = product.price > 0 && product.normal > product.price;
-  const message = `Halo Eiger Pahlawan Sidoarjo, saya ingin bertanya tentang ${product.name} (kode ${product.sku}), warna ${modalColor}, ukuran ${modalSize}. Mohon konfirmasi harga dan stok terbaru.`;
-  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-  document.getElementById('modalContent').innerHTML = `
-    <div class="modal-product-layout">
-      <div class="modal-gallery">
-        <div class="modal-photo-stage">
-          ${finalImage ? `<img src="${esc(finalImage.url)}" alt="${esc(product.name)} - ${esc(modalColor)}" onerror="this.style.opacity='.25'">` : '<div class="price-note">Foto produk belum tersedia</div>'}
-          ${imageList.length > 1 ? `<button type="button" class="modal-photo-arrow prev" data-modal-slide="-1" aria-label="Foto sebelumnya">‹</button><button type="button" class="modal-photo-arrow next" data-modal-slide="1" aria-label="Foto berikutnya">›</button><span class="modal-photo-count">${modalImageIndex+1}/${imageList.length}</span>` : ''}
-        </div>
-        ${imageList.length > 1 ? `<div class="modal-thumbs">${imageList.map((image,index) => `<button type="button" class="modal-thumb ${index===modalImageIndex?'active':''}" data-modal-image="${index}" aria-label="Pilih foto warna ${esc(image.color || index+1)}"><img src="${esc(image.url)}" alt="${esc(image.color || product.name)}"></button>`).join('')}</div>` : ''}
-        <div class="modal-color-label">${esc(finalImage?.color || modalColor || 'Foto produk')}</div>
-      </div>
-      <div class="modal-info">
-        <div class="sku">KODE PRODUK · ${esc(product.sku)}</div>
-        <h3 style="font-size:21px;line-height:1.3;margin:8px 0">${esc(product.name)}</h3>
-        <div class="modal-price">${fmt(selectedVariant?.promo > 0 ? selectedVariant.promo : selectedVariant?.normal || product.price)}</div>
-        ${hasPromo ? `<div class="price-note"><s>${fmt(product.normal)}</s> · Harga promo</div>` : ''}
-        <div class="price-note" style="margin-top:18px;font-weight:800;color:var(--ink)">PILIH WARNA</div>
-        <div class="modal-colors">
-          ${colors.length ? colors.map(color => `<button type="button" class="modal-color-btn ${color===modalColor?'active':''}" data-modal-color="${esc(color)}">${esc(color)}</button>`).join('') : '<span class="price-note">Warna belum tercantum</span>'}
-        </div>
-        <div class="price-note" style="font-weight:800;color:var(--ink)">PILIH UKURAN</div>
-        <div class="modal-sizes">
-          ${sizesForColor.length ? sizesForColor.map(sizeValue => {
-            const variant = [...product.variants.values()].find(v => v.color===modalColor && v.size===sizeValue);
-            return `<button type="button" class="modal-size-btn ${sizeValue===modalSize?'active':''} ${!variant || variant.qty<=0?'sold-out':''}" data-modal-size="${esc(sizeValue)}">${esc(sizeValue)}${!variant || variant.qty<=0?' · Habis':''}</button>`;
-          }).join('') : '<span class="price-note">Ukuran belum tercantum</span>'}
-        </div>
-        <div class="modal-stock-panel">
-          <div class="price-note">KETERSEDIAAN STOK</div>
-          <div class="modal-stock-number ${selectedVariant?.qty>0?'in':'out'}">${selectedVariant?.qty>0 ? 'Tersedia · '+selectedVariant.qty+' pcs' : 'Stok habis / tidak tersedia'}</div>
-          <div class="price-note" style="margin-top:6px">${esc(modalColor || 'Warna belum dipilih')} · Ukuran ${esc(modalSize || '-')}</div>
-        </div>
-        <a class="modal-wa" href="${waUrl}" target="_blank" rel="noopener">Tanya produk ini via WhatsApp ↗</a>
-        <p class="price-note" style="margin-top:12px">Stok dan harga dapat berubah. Konfirmasi kembali ke Eiger Pahlawan Sidoarjo.</p>
-      </div>
-    </div>
-  `;
-}
-
 function openProductModal(product) {
   if (!product) return;
-  modalProduct = product;
-  modalImageIndex = 0;
-  modalColor = '';
-  modalSize = '';
+
   document.getElementById('modalTitle').textContent = product.name;
-  document.getElementById('modalSku').textContent = 'KODE PRODUK: ' + product.sku;
-  renderProductModal();
+  document.getElementById('modalSku').textContent =
+    'KODE PRODUK: ' + product.sku;
+
+  const variants = [...product.variants.values()];
+
+  document.getElementById('modalContent').innerHTML = `
+    <p class="price-note">
+      Ketersediaan stok di update setiap hari pada pagi hari.
+    </p>
+
+    <div style="overflow-x:auto">
+      <table class="variant-table">
+        <thead>
+          <tr>
+            <th>Warna</th>
+            <th>Ukuran</th>
+            <th>Ketersediaan</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${variants.map(v => `
+            <tr>
+              <td>
+                <span class="variant-color">${esc(v.color)}</span>
+              </td>
+              <td>${esc(v.size)}</td>
+              <td class="${v.qty > 0 ? 'stock-ok' : 'stock-empty'}">
+                ${v.qty > 0
+                  ? 'Tersedia · ' + v.qty + ' pcs'
+                  : 'Stok habis'}
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="price-note" style="margin-top:14px">
+      Stok dapat berubah. Konfirmasi kembali ke tim Eiger Pahlawan Sidoarjo.
+    </p>
+  `;
+
   productModal.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('closeModal').focus();
@@ -1924,65 +1322,11 @@ function closeProductModal() {
   document.body.style.overflow = '';
 }
 
-productModal.addEventListener('click', event => {
-  const slideButton = event.target.closest('[data-modal-slide]');
-  const imageButton = event.target.closest('[data-modal-image]');
-  const colorButton = event.target.closest('[data-modal-color]');
-  const sizeButton = event.target.closest('[data-modal-size]');
-
-  if (slideButton) {
-    const images = modalImages(modalProduct);
-    const colorImages = images.filter(image => !image.color || image.color === modalColor);
-    const imageList = colorImages.length ? colorImages : images;
-    if (imageList.length) {
-      modalImageIndex = (modalImageIndex + Number(slideButton.dataset.modalSlide) + imageList.length) % imageList.length;
-      renderProductModal();
-    }
-  } else if (imageButton) {
-    modalImageIndex = Number(imageButton.dataset.modalImage);
-    renderProductModal();
-  } else if (colorButton) {
-    modalColor = colorButton.dataset.modalColor;
-    modalImageIndex = 0;
-    modalSize = '';
-    renderProductModal();
-  } else if (sizeButton) {
-    modalSize = sizeButton.dataset.modalSize;
-    renderProductModal();
-  }
-});
-
 productsEl.addEventListener('click', event => {
-  const slideButton = event.target.closest('[data-slide]');
-  if (slideButton) {
-    const index = Number(slideButton.dataset.productIndex);
-    const product = products[index];
-    const images = product?.images || [];
-    if (images.length > 1) {
-      const current = selectedSlides.get(index) || 0;
-      const direction = slideButton.dataset.slide === 'next' ? 1 : -1;
-      selectedSlides.set(index, (current + direction + images.length) % images.length);
-      draw();
-    }
-    event.stopPropagation();
-    return;
-  }
+  const button = event.target.closest('[data-product-index]');
 
-  const openButton = event.target.closest('[data-open-product]');
-  if (openButton) {
-    openProductModal(products[Number(openButton.dataset.openProduct)]);
-    return;
-  }
-
-  if (event.target.closest('a,button')) return;
-  const card = event.target.closest('.card[data-product-index]');
-  if (card) openProductModal(products[Number(card.dataset.productIndex)]);
-});
-
-productsEl.addEventListener('keydown', event => {
-  if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.card[data-product-index]')) {
-    event.preventDefault();
-    openProductModal(products[Number(event.target.dataset.productIndex)]);
+  if (button) {
+    openProductModal(products[Number(button.dataset.productIndex)]);
   }
 });
 
@@ -2049,37 +1393,14 @@ async function loadProducts() {
     '<div class="empty">Sedang mengambil data produk...</div>';
 
   for (const url of CSV_URLS) {
-    let timeoutId;
-    const controller = new AbortController();
-
     try {
-      // Jangan biarkan indikator memuat berjalan selamanya jika Google Sheets tidak merespons.
-      const timeout = new Promise((_, reject) => {
-        timeoutId = setTimeout(() => {
-          controller.abort();
-          reject(new Error('Permintaan Google Sheets melewati batas 15 detik. Periksa koneksi atau akses publik spreadsheet.'));
-        }, 15000);
-      });
+      const response = await fetch(url, { cache:'no-store' });
 
-      const request = (async () => {
-        const response = await fetch(url, {
-          cache: 'no-store',
-          signal: controller.signal
-        });
-
-        if (!response.ok) {
-          throw new Error('Google Sheets merespons HTTP ' + response.status);
-        }
-
-        return await response.text();
-      })();
-
-      // Batas waktu mencakup fetch dan pembacaan isi respons CSV.
-      const csv = await Promise.race([request, timeout]);
-
-      if (!csv.trim()) {
-        throw new Error('Data CSV kosong. Pastikan tab spreadsheet dipublikasikan sebagai CSV.');
+      if (!response.ok) {
+        throw new Error('Google Sheets merespons HTTP ' + response.status);
       }
+
+      const csv = await response.text();
 
       if (!csv.trim()) {
         throw new Error('Data CSV kosong');
@@ -2102,16 +1423,12 @@ async function loadProducts() {
       products = loaded;
 
       setFilters();
-      setupCategoryDropdown(products);
       draw();
-      renderHomeHighlights();
 
       return;
 
     } catch (error) {
       errors.push(error.message || String(error));
-    } finally {
-      if (timeoutId) clearTimeout(timeoutId);
     }
   }
 
@@ -2159,106 +1476,6 @@ async function loadProducts() {
   document.getElementById('retry-load')
     ?.addEventListener('click', loadProducts);
 }
-
-
-/* =========================================================
-   11. HIGHLIGHT BERANDA: PROMO & KATEGORI
-   ========================================================= */
-
-function renderHomeHighlights() {
-  const categoryGrid = document.getElementById('homeCategoryGrid');
-  const dealGrid = document.getElementById('homeDealGrid');
-
-  const categoryGroups = new Map();
-  products.forEach(product => {
-    const key = product.cat || 'Lainnya';
-    if (!categoryGroups.has(key)) categoryGroups.set(key, []);
-    categoryGroups.get(key).push(product);
-  });
-
-  const preferredOrder = ['Apparel','Bags','Footwear','Accessories','Tas','Sepatu','Aksesori','Pakaian'];
-  const categoryEntries = [...categoryGroups.entries()].sort((a,b) => {
-    const ai = preferredOrder.findIndex(name => name.toLowerCase() === a[0].toLowerCase());
-    const bi = preferredOrder.findIndex(name => name.toLowerCase() === b[0].toLowerCase());
-    if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-    return a[0].localeCompare(b[0]);
-  });
-
-  categoryGrid.innerHTML = categoryEntries.map(([cat,items]) => {
-    const featured = items.find(p => p.images?.length || p.image) || items[0];
-    const image = featured?.images?.[0]?.url || featured?.image || '';
-    const displayCategory = /^sepatu$/i.test(cat.trim()) ? 'Footwear' : cat;
-    return `<button type="button" class="home-category-card" data-home-category="${esc(cat)}" aria-label="Lihat kategori ${esc(displayCategory)}">
-      ${image ? `<img src="${esc(image)}" alt="${esc(displayCategory)}" loading="lazy" onerror="this.style.display='none'">` : ''}
-      <span class="home-category-arrow">↗</span>
-      <span class="home-category-copy"><strong>${esc(displayCategory)}</strong><span>${items.length} pilihan produk</span></span>
-    </button>`;
-  }).join('') || '<div class="home-category-loading">Kategori produk belum tersedia.</div>';
-
-  const deals = products
-    .filter(p => p.price > 0 && p.normal > p.price)
-    .sort((a,b) => ((b.normal-b.price)/b.normal) - ((a.normal-a.price)/a.normal))
-    .slice(0,4);
-
-  dealGrid.innerHTML = deals.map(product => {
-    const index = products.indexOf(product);
-    const image = product.images?.[0]?.url || product.image || '';
-    const discount = product.normal > 0 ? Math.round((product.normal-product.price)/product.normal*100) : 0;
-    return `<button type="button" class="home-deal-card" data-home-product="${index}">
-      <span class="home-deal-image">${image ? `<img src="${esc(image)}" alt="${esc(product.name)}" loading="lazy" onerror="this.style.display='none'">` : '<span>Foto</span>'}</span>
-      <span class="home-deal-info">
-        <span class="home-deal-badge">DISKON ${discount}%</span>
-        <strong>${esc(product.name)}</strong>
-        <span class="home-deal-price">${fmt(product.price)}</span>
-        <span class="home-deal-old">${fmt(product.normal)}</span>
-      </span>
-    </button>`;
-  }).join('') || '<div class="home-category-loading">Belum ada produk promo yang terdeteksi dari data harga saat ini.</div>';
-}
-
-document.getElementById('homeCategoryGrid').addEventListener('click', event => {
-  const button = event.target.closest('[data-home-category]');
-  if (!button) return;
-  category.value = button.dataset.homeCategory;
-  category.dispatchEvent(new Event('change'));
-  active = 'Semua';
-  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Semua'));
-  draw();
-  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
-});
-
-document.getElementById('homeDealGrid').addEventListener('click', event => {
-  const button = event.target.closest('[data-home-product]');
-  if (!button) return;
-  openProductModal(products[Number(button.dataset.homeProduct)]);
-});
-
-document.getElementById('homePromoButton').addEventListener('click', () => {
-  active = 'Diskon';
-  category.value = 'Semua';
-  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').value = 'Semua';
-  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Diskon'));
-  draw();
-  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
-});
-
-document.getElementById('homeViewDeals').addEventListener('click', () => {
-  active = 'Diskon';
-  category.value = 'Semua';
-  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').value = 'Semua';
-  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Diskon'));
-  draw();
-  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
-});
-
-document.getElementById('homeViewAll').addEventListener('click', () => {
-  active = 'Semua';
-  category.value = 'Semua';
-  if (document.getElementById('detailCategory')) document.getElementById('detailCategory').value = 'Semua';
-  document.querySelectorAll('.cat').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === 'Semua'));
-  draw();
-  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
-});
 
 
 /* =========================================================
