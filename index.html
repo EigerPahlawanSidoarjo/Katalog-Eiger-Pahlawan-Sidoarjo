@@ -935,6 +935,10 @@ footer {
         <option value="Semua">Semua kategori</option>
       </select>
 
+      <select id="subcategory" class="field" aria-label="Pilih subkategori" disabled>
+        <option value="Semua">Semua subkategori</option>
+      </select>
+
       <select id="size" class="field" aria-label="Pilih ukuran">
         <option value="Semua">Semua ukuran</option>
       </select>
@@ -1019,6 +1023,7 @@ const CSV_URLS = [
 const productsEl = document.getElementById('products');
 const search = document.getElementById('search');
 const category = document.getElementById('category');
+const subcategory = document.getElementById('subcategory');
 const size = document.getElementById('size');
 const sort = document.getElementById('sort');
 const count = document.getElementById('count');
@@ -1419,6 +1424,22 @@ document.getElementById('showAllCategories')?.addEventListener('click', () => {
   document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
 });
 
+function updateSubcategoryOptions() {
+  if (!subcategory) return;
+  const selectedCategory = category.value;
+  const relevantProducts = selectedCategory === 'Semua'
+    ? products
+    : products.filter(p => p.cat === selectedCategory);
+  const details = [...new Set(relevantProducts
+    .map(p => String(p.detail || '').trim())
+    .filter(Boolean))].sort((a,b) => a.localeCompare(b, 'id'));
+  const previous = subcategory.value;
+  subcategory.innerHTML = '<option value="Semua">Semua subkategori</option>' +
+    details.map(detail => `<option value="${esc(detail)}">${esc(detail)}</option>`).join('');
+  subcategory.disabled = details.length === 0;
+  subcategory.value = details.includes(previous) ? previous : 'Semua';
+}
+
 function setFilters() {
   const cats = [...new Set(products.map(p => p.cat))].sort();
   renderHomeCategories(cats);
@@ -1429,6 +1450,8 @@ function setFilters() {
     cats.map(c =>
       `<option value="${esc(c)}">${esc(c)}</option>`
     ).join('');
+
+  updateSubcategoryOptions();
 
   const chipItems = [
     ['Diskon', 'Produk diskon'],
@@ -1473,6 +1496,10 @@ function draw() {
       category.value === 'Semua' ||
       p.cat === category.value;
 
+    const matchesSubcategory =
+      !subcategory || subcategory.value === 'Semua' ||
+      String(p.detail || '').trim() === subcategory.value;
+
     const matchesSize =
       size.value === 'Semua' ||
       p.sizes.includes(size.value);
@@ -1487,6 +1514,7 @@ function draw() {
     return (
       matchesActive &&
       matchesCategory &&
+      matchesSubcategory &&
       matchesSize &&
       matchesSearch
     );
@@ -1814,6 +1842,15 @@ category.addEventListener('change', () => {
     button.classList.toggle('active', button.dataset.cat === 'Semua');
   });
 
+  updateSubcategoryOptions();
+  draw();
+});
+
+subcategory.addEventListener('change', () => {
+  active = 'Semua';
+  document.querySelectorAll('.cat').forEach(button => {
+    button.classList.toggle('active', button.dataset.cat === 'Semua');
+  });
   draw();
 });
 
