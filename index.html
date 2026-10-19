@@ -319,6 +319,43 @@ select.field:hover {border-color:#f47721a8;background-color:#fffaf6}
 select.field option {padding:12px;background:#fff;color:#20231f;font-weight:600}
 .field:focus {border-color:var(--orange);box-shadow:0 0 0 3px #f4772126,0 6px 16px #f4772110}
 
+.home-discovery {
+  margin:0 0 36px;
+  padding:24px;
+  border:1px solid #f0e6dc;
+  border-radius:20px;
+  background:linear-gradient(135deg,#fffaf5,#fff 58%,#fff3e8);
+}
+.discovery-heading {
+  display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px;
+}
+.discovery-heading h2 {font-size:clamp(22px,3vw,30px);letter-spacing:-.035em;margin:6px 0}
+.discovery-heading p {color:var(--muted);font-size:13px;margin:0}
+.discovery-all {
+  border:1px solid #f47721;background:#fff;color:#bd4e08;border-radius:999px;
+  padding:10px 14px;font-weight:800;cursor:pointer;white-space:nowrap;
+}
+.home-category-grid {
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;
+}
+.home-category-card {
+  display:flex;flex-direction:column;text-align:left;min-width:0;padding:0;
+  border:1px solid #eee5dc;border-radius:15px;background:#fff;overflow:hidden;
+  cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s;
+}
+.home-category-card:hover,.home-category-card:focus-visible {
+  transform:translateY(-3px);border-color:#f47721;box-shadow:0 9px 22px #3d25120f;outline:none;
+}
+.home-category-image {
+  height:138px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#f7f7f3,#fff0e3);overflow:hidden;
+}
+.home-category-image img {width:100%;height:100%;object-fit:contain;padding:12px}
+.home-category-placeholder {font-size:34px;color:#f47721;font-weight:900}
+.home-category-copy {display:flex;flex-direction:column;gap:5px;padding:12px}
+.home-category-copy strong {font-size:14px}
+.home-category-copy small {font-size:11px;color:var(--muted)}
+.home-category-loading {grid-column:1/-1;padding:18px;color:var(--muted);font-size:13px}
 .categories {
   display:flex;
   gap:8px;
@@ -649,9 +686,10 @@ footer {
     gap:8px;
   }
 
-  .hero-promo img {https://drive.google.com/drive/folders/1jdkR-QebqSbCTimsvx6efenDs27eYiZv
+  .hero-promo img {
     width:42%;
     height:100px;
+    object-fit:contain;
   }
 
   .hero-promo-copy strong {
@@ -662,6 +700,11 @@ footer {
     font-size:10px;
   }
 
+  .home-discovery {padding:16px;margin-bottom:28px}
+  .discovery-heading {align-items:flex-start;flex-direction:column}
+  .home-category-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .home-category-image {height:125px}
+  .discovery-all {font-size:12px}
   .main {
     padding:26px 14px 40px;
   }
@@ -768,11 +811,11 @@ footer {
 
       <div class="hero-promo" id="heroPromo">
         <div class="hero-promo-copy">
-          <span>PROMO PILIHAN</span>
-          <strong>Temukan promo spesial EIGER</strong>
-          <small>Update promo terbaru di Eiger Pahlawan Sidoarjo</small>
+          <span>KHUSUS EIGER PAHLAWAN SIDOARJO</span>
+          <strong>PROMO HARI INI</strong>
+          <small>Lihat penawaran pilihan dan temukan produk favoritmu.</small>
         </div>
-        <img id="promoImage" alt="Promo Eiger Pahlawan Sidoarjo" hidden>
+        <img id="promoImage" alt="Promo Hari Ini Eiger Pahlawan Sidoarjo" hidden>
       </div>
     </div>
 
@@ -780,8 +823,21 @@ footer {
   </header>
 
   <main class="main">
+    <section class="home-discovery" aria-label="Promo dan kategori produk">
+      <div class="discovery-heading">
+        <div>
+          <div class="eyebrow">PILIHAN UNTUKMU</div>
+          <h2>Jelajahi Kategori</h2>
+          <p>Ketuk gambar kategori untuk langsung melihat produknya.</p>
+        </div>
+        <button class="discovery-all" type="button" id="showAllCategories">Lihat semua produk <span>↗</span></button>
+      </div>
+      <div class="home-category-grid" id="homeCategoryGrid">
+        <div class="home-category-loading">Kategori akan tampil setelah data produk berhasil dimuat.</div>
+      </div>
+    </section>
 
-    <div class="section-head">
+    <div class="section-head" id="catalogSection">
       <div>
         <div class="eyebrow">Find your next gear</div>
         <h2>Katalog pilihan</h2>
@@ -863,8 +919,8 @@ footer {
    1. PENGATURAN WEBSITE
    ========================================================= */
 
-// Masukkan URL gambar promo langsung jika tersedia.
-const PROMO_IMAGE_URL = 'https://drive.google.com/drive/folders/1jdkR-QebqSbCTimsvx6efenDs27eYiZv';
+// Gambar banner promo dari file Google Drive.
+const PROMO_IMAGE_URL = 'https://drive.google.com/uc?export=view&id=1phThdJqV5wrGDwkKaCUY5HEDGWk6RzAO';
 
 // Masukkan nomor WhatsApp toko.
 // Format internasional tanpa tanda +, spasi, atau tanda hubung.
@@ -1127,8 +1183,52 @@ function csvToProducts(rows) {
    7. MEMBUAT FILTER KATEGORI DAN UKURAN
    ========================================================= */
 
+function renderHomeCategories(cats) {
+  const container = document.getElementById('homeCategoryGrid');
+  if (!container) return;
+
+  const categoryItems = cats.map(cat => {
+    const matching = products.filter(p => p.cat === cat);
+    const imageProduct = matching.find(p => p.image);
+    const image = imageProduct?.image || '';
+    const icon = cat === 'Tas' ? '▱' : cat === 'Sepatu' ? '◒' : cat === 'Apparel' ? '◫' : '✦';
+    return {cat, matching, image, icon};
+  });
+
+  container.innerHTML = categoryItems.length ? categoryItems.map(item => `
+    <button type="button" class="home-category-card" data-home-category="${esc(item.cat)}">
+      <span class="home-category-image">
+        ${item.image
+          ? `<img src="${esc(item.image)}" alt="${esc(item.cat)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span class="home-category-placeholder" hidden>${item.icon}</span>`
+          : `<span class="home-category-placeholder">${item.icon}</span>`}
+      </span>
+      <span class="home-category-copy">
+        <strong>${esc(item.cat === 'Sepatu' ? 'Footwear' : item.cat)}</strong>
+        <small>${item.matching.length} produk · Lihat kategori ↗</small>
+      </span>
+    </button>
+  `).join('') : '<div class="home-category-loading">Kategori belum tersedia.</div>';
+
+  container.querySelectorAll('[data-home-category]').forEach(button => {
+    button.addEventListener('click', () => {
+      active = button.dataset.homeCategory;
+      category.value = active;
+      render();
+      document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+}
+
+document.getElementById('showAllCategories')?.addEventListener('click', () => {
+  active = 'Semua';
+  category.value = 'Semua';
+  render();
+  document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
 function setFilters() {
   const cats = [...new Set(products.map(p => p.cat))].sort();
+  renderHomeCategories(cats);
 
   category.innerHTML =
     '<option value="Semua">Semua kategori</option>' +
