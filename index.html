@@ -230,7 +230,8 @@ button,input,select {
 }
 .hero-promo-actions {display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:7px}
 .hero-promo-button {display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;background:#f47721;color:#171916;padding:11px 17px;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 5px 16px #f4772138;transition:transform .18s,background .18s}
-.hero-promo-button:hover {background:#ff963f;transform:translateY(-1px)}
+.hero-promo-button:hover {background:#ff963f;transform:translateY(-1px);text-decoration:none}
+.hero-promo-button {text-decoration:none}
 .hero-promo-copy {position:relative;z-index:1}
 .hero-promo {background:linear-gradient(115deg,#171916 0%,#262923 60%,#3b2416 100%);border-color:#f4772170}
 .hero-promo-copy strong {color:#fff}
@@ -881,7 +882,7 @@ footer {
           <span>KHUSUS EIGER PAHLAWAN SIDOARJO</span>
           <strong>PROMO HARI INI</strong>
           <small>Lihat penawaran pilihan dan temukan produk favoritmu.</small>
-          <div class="hero-promo-actions"><button type="button" class="hero-promo-button" id="seePromoProducts">Lihat produk promo <span aria-hidden="true">↗</span></button></div>
+          <div class="hero-promo-actions"><a class="hero-promo-button" id="seePromoProducts" href="#produk-promo">Lihat produk promo <span aria-hidden="true">↗</span></a></div>
         </div>
         <img id="promoImage" alt="Promo Hari Ini Eiger Pahlawan Sidoarjo" hidden>
       </div>
@@ -1324,7 +1325,11 @@ function returnToHomePage() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-document.getElementById('seePromoProducts')?.addEventListener('click', showDiscountProducts);
+document.getElementById('seePromoProducts')?.addEventListener('click', event => {
+  event.preventDefault();
+  if (location.hash !== '#produk-promo') history.pushState(null, '', '#produk-promo');
+  showDiscountProducts();
+});
 document.getElementById('allPromoProducts')?.addEventListener('click', showDiscountProducts);
 document.getElementById('backFromPromo')?.addEventListener('click', returnToHomePage);
 
