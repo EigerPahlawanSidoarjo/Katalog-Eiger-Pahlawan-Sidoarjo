@@ -418,7 +418,23 @@ select.field option {padding:12px;background:#fff;color:#20231f;font-weight:600}
   height:100%;
   object-fit:contain;
   padding:10px;
+  pointer-events:none;
 }
+.main-gallery-nav {
+  position:absolute;z-index:3;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;border:0;border-radius:50%;
+  background:#20231fd9;color:#fff;font-size:19px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.main-gallery-prev {left:7px}.main-gallery-next {right:7px}
+.main-gallery-count {
+  position:absolute;z-index:3;right:8px;bottom:8px;
+  border-radius:999px;padding:4px 7px;background:#20231fd9;color:#fff;
+  font-size:10px;font-weight:800;pointer-events:none;
+}
+.visual[data-swipeable="true"] {touch-action:pan-y;cursor:grab}
+.visual[data-swipeable="true"]:active {cursor:grabbing}
+
 
 .tag {
   position:absolute;
@@ -1355,19 +1371,26 @@ function draw() {
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
       : `https://wa.me/?text=${encodeURIComponent(message)}`;
 
-    const imageHTML = p.image
-      ? `<img src="${esc(p.image)}"
-          alt="${esc(p.name)}"
-          loading="lazy"
+    const cardImages = [...new Set([...p.variants.values()].map(v => v.image).filter(Boolean))];
+    if (!cardImages.length && p.image) cardImages.push(p.image);
+    const imageHTML = cardImages.length
+      ? `<img class="main-card-image" src="${esc(cardImages[0])}"
+          alt="${esc(p.name)}" loading="lazy"
+          data-card-images="${esc(JSON.stringify(cardImages))}"
+          data-card-image-index="0"
           onerror="this.style.display='none';this.nextElementSibling.hidden=false">
-         <div hidden style="color:#697067;font-size:12px">Foto tidak tersedia</div>`
+         <div hidden style="color:#697067;font-size:12px">Foto tidak tersedia</div>
+         ${cardImages.length > 1 ? `
+           <button type="button" class="main-gallery-nav main-gallery-prev" aria-label="Foto sebelumnya" tabindex="-1">‹</button>
+           <button type="button" class="main-gallery-nav main-gallery-next" aria-label="Foto berikutnya" tabindex="-1">›</button>
+           <span class="main-gallery-count">1 / ${cardImages.length}</span>` : ''}`
       : `<div style="color:#697067;font-size:12px">Foto belum tersedia</div>`;
 
     return `
       <article class="card" role="button" tabindex="0"
         aria-label="Lihat detail produk"
         data-product-index="${products.indexOf(p)}">
-        <div class="visual">
+        <div class="visual ${cardImages.length > 1 ? 'main-image-swipeable' : ''}" data-swipeable="${cardImages.length > 1 ? 'true' : 'false'}">
           ${hasPromo
             ? `<span class="tag">DISKON${p.discount ? ' ' + esc(p.discount) + '%' : ''}</span>`
             : ''}
@@ -1434,6 +1457,7 @@ function openProductModal(product) {
   let activeSlide = 0;
   let selectedColor = colors[0] || '';
   let selectedSize = (variants.find(v => v.color === selectedColor) || variants[0] || {}).size || '';
+  let hasUserChosenVariant = false;
 
   const photoGalleryHTML = photoSlides.length ? `
     <div class="product-gallery" id="productGallery">
@@ -1511,14 +1535,17 @@ function openProductModal(product) {
     }).join('');
     const chosen = colorVariants.find(v => v.size === selectedSize);
     if (stockWrap) {
-      stockWrap.innerHTML = chosen
-        ? `<span>Stok ukuran <strong>${esc(chosen.size)}</strong> warna <strong>${esc(chosen.color)}</strong>:</span><strong class="${chosen.qty>0?'stock-ok':'stock-empty'}">${chosen.qty>0?'Tersedia · '+chosen.qty+' pcs':'Stok habis'}</strong>`
-        : 'Pilih warna dan ukuran untuk melihat stok.';
+      stockWrap.innerHTML = !hasUserChosenVariant
+        ? 'Pilih warna dan ukuran untuk melihat ketersediaan stok.'
+        : chosen
+          ? `<span>Stok ukuran <strong>${esc(chosen.size)}</strong> warna <strong>${esc(chosen.color)}</strong>:</span><strong class="${chosen.qty>0?'stock-ok':'stock-empty'}">${chosen.qty>0?'Tersedia · '+chosen.qty+' pcs':'Stok habis'}</strong>`
+          : 'Stok untuk kombinasi ini tidak tersedia.';
     }
     document.querySelectorAll('[data-select-size]').forEach(button => button.classList.toggle('active',button.dataset.selectSize===selectedSize));
   };
 
   const selectColor = color => {
+    hasUserChosenVariant = true;
     selectedColor = color;
     document.querySelectorAll('[data-select-color]').forEach(button => button.classList.toggle('active',button.dataset.selectColor===color));
     const slideIndex = photoSlides.findIndex(slide => slide.color===color);
@@ -1530,12 +1557,14 @@ function openProductModal(product) {
   document.getElementById('sizeChoices')?.addEventListener('click',event=>{
     const button=event.target.closest('[data-select-size]');
     if(!button)return;
+    hasUserChosenVariant = true;
     selectedSize=button.dataset.selectSize;
     renderSizeChoices();
   });
   document.querySelectorAll('[data-table-color]').forEach(button=>button.addEventListener('click',()=>selectColor(button.dataset.tableColor)));
   document.querySelectorAll('[data-table-size]').forEach(button=>button.addEventListener('click',()=>{
     selectColor(button.dataset.tableSizeColor);
+    hasUserChosenVariant = true;
     selectedSize=button.dataset.tableSize;
     renderSizeChoices();
     document.getElementById('selectedStock')?.scrollIntoView({block:'nearest',behavior:'smooth'});
@@ -1552,9 +1581,58 @@ function closeProductModal() {
 
 productsEl.addEventListener('click', event => {
   if (event.target.closest('a')) return;
+  const galleryButton = event.target.closest('.main-gallery-nav');
+  if (galleryButton) {
+    event.preventDefault();
+    event.stopPropagation();
+    const visual = galleryButton.closest('.visual');
+    const img = visual?.querySelector('.main-card-image');
+    if (img) changeMainCardImage(visual, galleryButton.classList.contains('main-gallery-next') ? 1 : -1);
+    return;
+  }
   const card = event.target.closest('.card[data-product-index]');
-  if (card) openProductModal(products[Number(card.dataset.productIndex)]);
+  if (card) {
+    if (card.dataset.justSwiped === 'true') {
+      card.dataset.justSwiped = 'false';
+      return;
+    }
+    openProductModal(products[Number(card.dataset.productIndex)]);
+  }
 });
+
+function changeMainCardImage(visual, direction) {
+  const img = visual?.querySelector('.main-card-image');
+  if (!img) return;
+  let images;
+  try { images = JSON.parse(img.dataset.cardImages || '[]'); } catch { images = []; }
+  if (images.length < 2) return;
+  let index = Number(img.dataset.cardImageIndex || 0);
+  index = (index + direction + images.length) % images.length;
+  img.dataset.cardImageIndex = String(index);
+  img.src = images[index];
+  const counter = visual.querySelector('.main-gallery-count');
+  if (counter) counter.textContent = (index + 1) + ' / ' + images.length;
+}
+
+let mainTouchStart = null;
+productsEl.addEventListener('touchstart', event => {
+  const visual = event.target.closest('.visual[data-swipeable="true"]');
+  if (!visual || !event.touches?.length) return;
+  mainTouchStart = {visual, x:event.touches[0].clientX, y:event.touches[0].clientY};
+}, {passive:true});
+
+productsEl.addEventListener('touchend', event => {
+  if (!mainTouchStart || !event.changedTouches?.length) return;
+  const start = mainTouchStart;
+  mainTouchStart = null;
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - start.x;
+  const dy = touch.clientY - start.y;
+  if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+  const card = start.visual.closest('.card[data-product-index]');
+  if (card) card.dataset.justSwiped = 'true';
+  changeMainCardImage(start.visual, dx < 0 ? 1 : -1);
+}, {passive:true});
 
 productsEl.addEventListener('keydown', event => {
   if (event.target.matches('.card[data-product-index]') && (event.key === 'Enter' || event.key === ' ')) {
