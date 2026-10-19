@@ -370,7 +370,12 @@ select.field option {padding:12px;background:#fff;color:#20231f;font-weight:600}
 .home-category-loading {grid-column:1/-1;padding:18px;color:var(--muted);font-size:13px}
 .home-promo-products {margin:0 0 38px;padding:24px;border-radius:20px;background:#191b18;color:#fff;border:1px solid #33372f}
 .main.promo-page-mode .home-discovery,
-.main.promo-page-mode .home-promo-products {display:none}
+.main.promo-page-mode .home-promo-products,
+.main.category-page-mode .home-discovery,
+.main.category-page-mode .home-promo-products {display:none}
+.main.category-page-mode .section-head {padding:20px 22px;margin-bottom:18px;border-radius:16px;background:linear-gradient(110deg,#191b18,#3b2416);color:#fff}
+.main.category-page-mode .section-head h2 {color:#fff}
+.main.category-page-mode .section-head .eyebrow {color:#ff974b}
 .main.promo-page-mode .section-head {padding:20px 22px;margin-bottom:18px;border-radius:16px;background:linear-gradient(110deg,#191b18,#3b2416);color:#fff}
 .main.promo-page-mode .section-head h2 {color:#fff}
 .main.promo-page-mode .section-head .eyebrow {color:#ff974b}
@@ -1300,6 +1305,8 @@ function renderHomePromoProducts() {
 }
 
 function showDiscountProducts() {
+  document.querySelector('.main')?.classList.remove('category-page-mode');
+  document.querySelector('.main')?.classList.add('promo-page-mode');
   active = 'Diskon';
   category.value = 'Semua';
   size.value = 'Semua';
@@ -1317,15 +1324,18 @@ function showDiscountProducts() {
 }
 
 function returnToHomePage() {
-  document.querySelector('.main')?.classList.remove('promo-page-mode');
+  document.querySelector('.main')?.classList.remove('promo-page-mode', 'category-page-mode');
   const toolbar = document.getElementById('promoPageToolbar');
   if (toolbar) toolbar.hidden = true;
   const heading = document.getElementById('catalogHeading');
   if (heading) heading.textContent = 'Katalog pilihan';
   const eyebrow = document.getElementById('catalogEyebrow');
   if (eyebrow) eyebrow.textContent = 'Find your next gear';
-  active = 'Diskon';
-  if (location.hash === '#produk-promo') history.replaceState(null, '', location.pathname + location.search);
+  active = 'Semua';
+  category.value = 'Semua';
+  if (subcategory) subcategory.value = 'Semua';
+  search.value = '';
+  if (location.hash === '#produk-promo' || location.hash.startsWith('#kategori-')) history.replaceState(null, '', location.pathname + location.search);
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1389,30 +1399,35 @@ function renderHomeCategories(cats) {
     </div>
   `).join('') : '<div class="home-category-loading">Kategori belum tersedia.</div>';
 
-  const filterGroup = group => {
-    active = 'group:' + group;
-    category.value = 'Semua';
-    const searchInput = document.getElementById('search');
-    if (searchInput) searchInput.value = '';
+  const openCategoryPage = (group, detailCategory = '') => {
+    document.querySelector('.main')?.classList.remove('promo-page-mode');
+    document.querySelector('.main')?.classList.add('category-page-mode');
+    const toolbar = document.getElementById('promoPageToolbar');
+    if (toolbar) toolbar.hidden = false;
+    const backButton = document.getElementById('backFromPromo');
+    if (backButton) backButton.textContent = '← Kembali ke halaman utama';
+    const heading = document.getElementById('catalogHeading');
+    if (heading) heading.textContent = detailCategory ? categoryDisplayName(detailCategory) : group;
+    const eyebrow = document.getElementById('catalogEyebrow');
+    if (eyebrow) eyebrow.textContent = 'JELAJAHI KATEGORI';
+    active = detailCategory || ('group:' + group);
+    category.value = detailCategory || 'Semua';
+    if (subcategory) subcategory.value = 'Semua';
+    size.value = 'Semua';
+    search.value = '';
+    if (location.hash !== '#kategori-' + encodeURIComponent(detailCategory || group).toLowerCase()) {
+      history.pushState(null, '', '#kategori-' + encodeURIComponent(detailCategory || group).toLowerCase());
+    }
     render();
     document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
   };
 
   container.querySelectorAll('[data-home-category-all]').forEach(button => {
-    button.addEventListener('click', () => filterGroup(button.dataset.homeCategoryAll));
+    button.addEventListener('click', () => openCategoryPage(button.dataset.homeCategoryAll));
   });
   container.querySelectorAll('[data-home-category-select]').forEach(select => {
     select.addEventListener('change', () => {
-      if (!select.value) {
-        filterGroup(select.dataset.homeCategorySelect);
-        return;
-      }
-      active = select.value;
-      category.value = select.value;
-      const searchInput = document.getElementById('search');
-      if (searchInput) searchInput.value = '';
-      render();
-      document.getElementById('catalogSection')?.scrollIntoView({behavior:'smooth',block:'start'});
+      openCategoryPage(select.dataset.homeCategorySelect, select.value || '');
     });
   });
 }
