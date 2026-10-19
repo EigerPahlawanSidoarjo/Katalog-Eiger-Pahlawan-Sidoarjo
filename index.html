@@ -611,6 +611,19 @@ footer {
 .color-pickers {display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
 .color-pick {border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:750;cursor:pointer}
 .color-pick.active {background:#fff0e4;color:#b94d08;border-color:var(--orange);box-shadow:0 0 0 2px #f477211c}
+.variant-select-panel {padding:15px;border:1px solid #f0e5dc;border-radius:14px;background:#fffaf6;margin:0 0 18px}
+.variant-select-heading {font-size:12px;font-weight:850;margin:0 0 9px}
+.variant-select-group {margin-bottom:15px}
+.variant-select-group:last-child {margin-bottom:0}
+.variant-choice-row {display:flex;flex-wrap:wrap;gap:8px}
+.variant-choice {min-width:48px;border:1px solid #dedbd6;background:#fff;color:var(--ink);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer;transition:.15s}
+.variant-choice:hover {border-color:var(--orange)}
+.variant-choice.active {background:#f47721;color:#fff;border-color:#f47721;box-shadow:0 3px 9px #f4772133}
+.variant-choice.unavailable {opacity:.5;border-style:dashed}
+.selected-stock {display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid #f0e5dc;font-size:13px}
+.selected-stock strong {font-size:14px}
+.selected-stock .stock-ok {color:#16834a}
+.selected-stock .stock-empty {color:#d64b35}
 .card[data-product-index] {cursor:pointer}
 .card:focus-visible {outline:3px solid #f47721;outline-offset:3px}
 .variant-table {
@@ -1411,6 +1424,7 @@ function openProductModal(product) {
     'KODE PRODUK: ' + product.sku;
 
   const variants = [...product.variants.values()];
+  const colors = [...new Set(variants.map(v => v.color))];
   const colorImages = new Map();
   variants.forEach(v => {
     if (!colorImages.has(v.color)) colorImages.set(v.color, []);
@@ -1418,6 +1432,9 @@ function openProductModal(product) {
   });
   const photoSlides = [...colorImages.entries()].flatMap(([color, images]) => images.map(src => ({color, src})));
   let activeSlide = 0;
+  let selectedColor = colors[0] || '';
+  let selectedSize = (variants.find(v => v.color === selectedColor) || variants[0] || {}).size || '';
+
   const photoGalleryHTML = photoSlides.length ? `
     <div class="product-gallery" id="productGallery">
       <img id="galleryImage" src="${esc(photoSlides[0].src)}" alt="${esc(product.name)} - ${esc(photoSlides[0].color)}"
@@ -1428,47 +1445,40 @@ function openProductModal(product) {
         <button class="gallery-nav gallery-next" type="button" id="galleryNext" aria-label="Foto berikutnya">›</button>` : ''}
       <span class="gallery-caption" id="galleryColor">${esc(photoSlides[0].color)}</span>
       <span class="gallery-counter" id="galleryCounter">1 / ${photoSlides.length}</span>
-    </div>
-    <div class="color-picker-title">Pilih warna untuk melihat foto</div>
-    <div class="color-pickers">${[...colorImages.keys()].map((color,index) => `
-      <button class="color-pick ${index===0?'active':''}" type="button" data-gallery-color="${esc(color)}">${esc(color)}</button>
-    `).join('')}</div>`
+    </div>`
     : `<div class="product-gallery"><div class="gallery-fallback">Foto produk belum tersedia di data.</div></div>`;
 
   document.getElementById('modalContent').innerHTML = `
     ${photoGalleryHTML}
-    <p class="price-note">Ketersediaan stok di update setiap hari pada pagi hari.</p>
+    <div class="variant-select-panel">
+      <div class="variant-select-group">
+        <div class="variant-select-heading">PILIH WARNA</div>
+        <div class="variant-choice-row" id="colorChoices">
+          ${colors.map(color => `<button type="button" class="variant-choice ${color===selectedColor?'active':''}" data-select-color="${esc(color)}">${esc(color)}</button>`).join('')}
+        </div>
+      </div>
+      <div class="variant-select-group">
+        <div class="variant-select-heading">PILIH UKURAN</div>
+        <div class="variant-choice-row" id="sizeChoices"></div>
+      </div>
+      <div class="selected-stock" id="selectedStock" aria-live="polite"></div>
+    </div>
+    <p class="price-note">Pilih warna dan ukuran untuk melihat ketersediaan stok. Data stok diperbarui setiap hari.</p>
     <div style="overflow-x:auto">
       <table class="variant-table">
-        <thead>
-          <tr>
-            <th>Warna</th>
-            <th>Ukuran</th>
-            <th>Ketersediaan</th>
-          </tr>
-        </thead>
-
+        <thead><tr><th>Warna</th><th>Ukuran</th><th>Ketersediaan</th></tr></thead>
         <tbody>
           ${variants.map(v => `
             <tr>
-              <td>
-                <span class="variant-color">${esc(v.color)}</span>
-              </td>
-              <td>${esc(v.size)}</td>
-              <td class="${v.qty > 0 ? 'stock-ok' : 'stock-empty'}">
-                ${v.qty > 0
-                  ? 'Tersedia · ' + v.qty + ' pcs'
-                  : 'Stok habis'}
-              </td>
+              <td><button type="button" class="color-pick" data-table-color="${esc(v.color)}">${esc(v.color)}</button></td>
+              <td><button type="button" class="color-pick" data-table-size="${esc(v.size)}" data-table-size-color="${esc(v.color)}">${esc(v.size)}</button></td>
+              <td class="${v.qty > 0 ? 'stock-ok' : 'stock-empty'}">${v.qty > 0 ? 'Tersedia · ' + v.qty + ' pcs' : 'Stok habis'}</td>
             </tr>
           `).join('')}
         </tbody>
       </table>
     </div>
-
-    <p class="price-note" style="margin-top:14px">
-      Stok dapat berubah. Konfirmasi kembali ke tim Eiger Pahlawan Sidoarjo.
-    </p>
+    <p class="price-note" style="margin-top:14px">Stok dapat berubah. Konfirmasi kembali ke tim Eiger Pahlawan Sidoarjo.</p>
   `;
 
   productModal.classList.add('open');
@@ -1487,16 +1497,52 @@ function openProductModal(product) {
     if (colorEl) colorEl.textContent = slide.color;
     const counter = document.getElementById('galleryCounter');
     if (counter) counter.textContent = (activeSlide + 1) + ' / ' + photoSlides.length;
-    document.querySelectorAll('[data-gallery-color]').forEach(button => button.classList.toggle('active', button.dataset.galleryColor === slide.color));
   };
-  document.getElementById('galleryPrev')?.addEventListener('click', () => showSlide(activeSlide - 1));
-  document.getElementById('galleryNext')?.addEventListener('click', () => showSlide(activeSlide + 1));
-  document.querySelectorAll('[data-gallery-color]').forEach(button => {
-    button.addEventListener('click', () => {
-      const firstMatch = photoSlides.findIndex(slide => slide.color === button.dataset.galleryColor);
-      showSlide(firstMatch >= 0 ? firstMatch : 0);
-    });
+
+  const renderSizeChoices = () => {
+    const sizeWrap = document.getElementById('sizeChoices');
+    const stockWrap = document.getElementById('selectedStock');
+    const colorVariants = variants.filter(v => v.color === selectedColor);
+    const sizes = [...new Set(colorVariants.map(v => v.size))];
+    if (!sizes.includes(selectedSize)) selectedSize = sizes[0] || '';
+    if (sizeWrap) sizeWrap.innerHTML = sizes.map(size => {
+      const variant = colorVariants.find(v => v.size === size);
+      return `<button type="button" class="variant-choice ${size===selectedSize?'active':''} ${variant && variant.qty<=0?'unavailable':''}" data-select-size="${esc(size)}">${esc(size)}</button>`;
+    }).join('');
+    const chosen = colorVariants.find(v => v.size === selectedSize);
+    if (stockWrap) {
+      stockWrap.innerHTML = chosen
+        ? `<span>Stok ukuran <strong>${esc(chosen.size)}</strong> warna <strong>${esc(chosen.color)}</strong>:</span><strong class="${chosen.qty>0?'stock-ok':'stock-empty'}">${chosen.qty>0?'Tersedia · '+chosen.qty+' pcs':'Stok habis'}</strong>`
+        : 'Pilih warna dan ukuran untuk melihat stok.';
+    }
+    document.querySelectorAll('[data-select-size]').forEach(button => button.classList.toggle('active',button.dataset.selectSize===selectedSize));
+  };
+
+  const selectColor = color => {
+    selectedColor = color;
+    document.querySelectorAll('[data-select-color]').forEach(button => button.classList.toggle('active',button.dataset.selectColor===color));
+    const slideIndex = photoSlides.findIndex(slide => slide.color===color);
+    if (slideIndex>=0) showSlide(slideIndex);
+    renderSizeChoices();
+  };
+
+  document.querySelectorAll('[data-select-color]').forEach(button => button.addEventListener('click',()=>selectColor(button.dataset.selectColor)));
+  document.getElementById('sizeChoices')?.addEventListener('click',event=>{
+    const button=event.target.closest('[data-select-size]');
+    if(!button)return;
+    selectedSize=button.dataset.selectSize;
+    renderSizeChoices();
   });
+  document.querySelectorAll('[data-table-color]').forEach(button=>button.addEventListener('click',()=>selectColor(button.dataset.tableColor)));
+  document.querySelectorAll('[data-table-size]').forEach(button=>button.addEventListener('click',()=>{
+    selectColor(button.dataset.tableSizeColor);
+    selectedSize=button.dataset.tableSize;
+    renderSizeChoices();
+    document.getElementById('selectedStock')?.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }));
+  document.getElementById('galleryPrev')?.addEventListener('click',()=>showSlide(activeSlide-1));
+  document.getElementById('galleryNext')?.addEventListener('click',()=>showSlide(activeSlide+1));
+  renderSizeChoices();
 }
 
 function closeProductModal() {
